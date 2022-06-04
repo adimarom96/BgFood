@@ -49,11 +49,12 @@ const corsConfig = {
 app.use(cors(corsConfig));
 app.options("*", cors(corsConfig));
 
-var port = process.env.PORT || "80"; //local=3000 remote=80
+var port = 3000 //process.env.PORT || "80"; //local=3000 remote=80
 //#endregion
 const user = require("./routes/user");
 const recipes = require("./routes/recipes");
 const auth = require("./routes/auth");
+const { getRecipeDetails } = require("./routes/utils/recipes_utils");
 
 
 //#region cookie middleware
@@ -99,3 +100,4 @@ process.on("SIGINT", function () {
   }
   process.exit();
 });
+
