@@ -50,7 +50,11 @@ async function getRandomRecipes() {
       apiKey: process.env.spooncular_apiKey,
     },
   });
-  let prevRecips = extractPreviewRecipeDetails([response.data.recipes[0],response.data.recipes[1],response.data.recipes[2]]);// TODO: might return less then three, need to fix
+  let prevRecips = extractPreviewRecipeDetails([
+    response.data.recipes[0],
+    response.data.recipes[1],
+    response.data.recipes[2],
+  ]); // TODO: might return less then three, need to fix
   console.log(prevRecips);
   return response.prevRecips;
 }
@@ -85,35 +89,30 @@ function extractPreviewRecipeDetails(recipes_info) {
   });
 }
 
-async function searchRecpies(numOfResult=5,queryToSearch) { //TODO: need to makesure that all recpies have instracution, amonut of recpies return, filter\order and etc. check hw3 pdf
-    const response = await axios.get(`${api_domain}/complexSearch`, {
-        // this get/post
-        params: {
-          query: queryToSearch,
-          number: numOfResult,
-          apiKey: process.env.spooncular_apiKey,
-        },
-      });
-      let x= response.data;
-      return response.data.results;
-
-  }
+async function searchRecpies(numOfResult = 5, queryToSearch) {
+  //TODO: need to makesure that all recpies have instracution, amonut of recpies return, filter\order and etc. check hw3 pdf
+  const response = await axios.get(`${api_domain}/complexSearch`, {
+    // this get/post
+    params: {
+      query: queryToSearch,
+      number: numOfResult,
+      apiKey: process.env.spooncular_apiKey,
+    },
+  });
+  let x = response.data;
+  return response.data.results;
+}
 
 async function getRecipesPreview(recipes_ids_list) {
-
-  // let recipes_ids_list = strIds.split(","); TODO: need to check which function uses this strsplit
   let promises = [];
   recipes_ids_list.map((id) => {
     promises.push(getRecipeInformation(id));
   });
   let info_res = await Promise.all(promises);
-  //info_res.map((recp)=>{console.log(recp.data)});
-  // console.log(info_res);
   let prevRecips = extractPreviewRecipeDetails(info_res);
   console.log(prevRecips);
   return prevRecips;
 }
-
 
 exports.getRecipeDetails = getRecipeDetails;
 exports.getRandomRecipes = getRandomRecipes;

@@ -53,6 +53,33 @@ router.get('/getfavorites', async (req,res,next) => {
 });
 
 
+router.post('/createRecipe', async (req,res,next) => {
+  try{
+    console.log(req.body.id);
+
+    let recpiesDetials = {
+      id:req.body.id,
+      title:req.body.title,
+      readyInMinutes:req.body.readyInMinutes,
+      image:req.body.image,
+      aggregateLikes:req.body.aggregateLikes,
+      vegan:req.body.vegan,
+      vegetarian:req.body.vegetarian,
+      glutenFree:req.body.glutenFree,
+      ingredients:req.body.ingredients,
+      instructions:req.body.instructions,
+      numOfDishes:req.body.numOfDishes
+    };
+    
+    const results = await user_utils.createRecipe(req.session.user_id,recpiesDetials);
+  
+   
+    res.status(200).send(results);
+  } catch(error){
+    next(error); 
+  }
+});
+
 
 
 module.exports = router;

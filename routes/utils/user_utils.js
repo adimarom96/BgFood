@@ -10,6 +10,15 @@ async function getFavoriteRecipes(user_id){
 }
 
 
+async function createRecipe(user_id,recpiesDetials){ //TODO: Change recpiedDeitlas.id -> real id
+    console.log(recpiesDetials);
+    await DButils.execQuery(
+        `INSERT INTO userrecipes VALUES ('${user_id}','${recpiesDetials.id}','${recpiesDetials.title}', '${recpiesDetials.readyInMinutes}', '${recpiesDetials.image}' , '${recpiesDetials.aggregateLikes}' , '${recpiesDetials.vegan}' , '${recpiesDetials.vegetarian}' , '${recpiesDetials.glutenFree}' , '${recpiesDetials.ingredients}', '${recpiesDetials.instructions}', '${recpiesDetials.numOfDishes}')`
+      );
+
+}
+
 
 exports.markAsFavorite = markAsFavorite;
+exports.createRecipe = createRecipe;
 exports.getFavoriteRecipes = getFavoriteRecipes;

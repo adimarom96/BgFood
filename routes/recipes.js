@@ -4,14 +4,12 @@ const recipes_utils = require("./utils/recipes_utils");
 
 router.get("/", (req, res) => res.send("im here"));
 
-/**
- * This path returns 3 random preview recipes
- */
 
- router.get("/random", async (req, res, next) => {
+//random
+ router.get("/random", async (req, res, next) => { //TODO : for some resason its not retun the answer at post man, just print it
   try {
     let random_3_recipes = await recipes_utils.getRandomRecipes();
-    res.send(random_3_recipes);
+    res.status(200).send(random_3_recipes);
   } catch (error) {
     next(error);
   }
@@ -27,7 +25,15 @@ router.get("/search", async (req, res, next) => {
   }
 });
 
-
+//getpreviw -list of ides
+router.get("/getRecipesPrev", async (req, res, next) => {
+  try {
+    const recipe = await recipes_utils.getRecipesPreview(req.query.recpiesIds.split(","));
+    res.send(recipe);
+  } catch (error) {
+    next(error);
+  }
+});
 
 
 /**
@@ -41,8 +47,6 @@ router.get("/:recipeId", async (req, res, next) => {
     next(error);
   }
 });
-
-
 
 
 module.exports = router;
