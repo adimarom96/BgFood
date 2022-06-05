@@ -99,15 +99,9 @@ async function searchRecpies(numOfResult=5,queryToSearch) { //TODO: need to make
 
   }
 
+async function getRecipesPreview(recipes_ids_list) {
 
-
-
-
-
-
-
-async function getRecipesPreview(strIds) {
-  let recipes_ids_list = strIds.split(",");
+  // let recipes_ids_list = strIds.split(","); TODO: need to check which function uses this strsplit
   let promises = [];
   recipes_ids_list.map((id) => {
     promises.push(getRecipeInformation(id));
@@ -120,15 +114,6 @@ async function getRecipesPreview(strIds) {
   return prevRecips;
 }
 
-// async function getRandomThreeRecipes() {
-//    const response = await axios.get(`${api_domain}/random`,{
-//        params{
-//            number: 10,
-//            apiKey:// ????
-//        }
-//    });
-//    return response;
-// }
 
 exports.getRecipeDetails = getRecipeDetails;
 exports.getRandomRecipes = getRandomRecipes;

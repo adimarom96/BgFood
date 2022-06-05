@@ -30,8 +30,6 @@ router.get("/search", async (req, res, next) => {
 
 
 
-
-
 /**
  * This path returns a full details of a recipe by its id
  */
