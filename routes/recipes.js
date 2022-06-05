@@ -17,17 +17,18 @@ router.get("/", (req, res) => res.send("im here"));
   }
 });
 
-
-router.get("/getRecipesPrev", async (req, res, next) => {
+//recipes/search TODO: change the swager!
+router.get("/search", async (req, res, next) => { 
   try {
-    console.log("in getrepciesprev")
-    console.log(req.query.recpiesIds)
-    const recipe = await recipes_utils.getRecipesPreview(req.query.recpiesIds);
-    res.send(recipe);
+    let searchRecpies = await recipes_utils.searchRecpies(5,req.query.recipeskeywords);
+    res.send(searchRecpies);
   } catch (error) {
     next(error);
   }
 });
+
+
+
 
 
 

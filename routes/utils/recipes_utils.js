@@ -1,7 +1,8 @@
 const axios = require("axios");
 const { response } = require("express");
 const api_domain = "https://api.spoonacular.com/recipes";
-
+const MySql = require("MySql");
+const DButils = require("../utils/DButils");
 /**
  * Get recipes list from spooncular response and extract the relevant recipe data for preview
  * @param {*} recipes_info
@@ -84,6 +85,27 @@ function extractPreviewRecipeDetails(recipes_info) {
   });
 }
 
+async function searchRecpies(numOfResult=5,queryToSearch) { //TODO: need to makesure that all recpies have instracution, amonut of recpies return, filter\order and etc. check hw3 pdf
+    const response = await axios.get(`${api_domain}/complexSearch`, {
+        // this get/post
+        params: {
+          query: queryToSearch,
+          number: numOfResult,
+          apiKey: process.env.spooncular_apiKey,
+        },
+      });
+      let x= response.data;
+      return response.data.results;
+
+  }
+
+
+
+
+
+
+
+
 async function getRecipesPreview(strIds) {
   let recipes_ids_list = strIds.split(",");
   let promises = [];
@@ -111,3 +133,4 @@ async function getRecipesPreview(strIds) {
 exports.getRecipeDetails = getRecipeDetails;
 exports.getRandomRecipes = getRandomRecipes;
 exports.getRecipesPreview = getRecipesPreview;
+exports.searchRecpies = searchRecpies;
