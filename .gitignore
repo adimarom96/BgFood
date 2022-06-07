@@ -1,4 +1,5 @@
 *.pptx
+MySql.js
 node_modules
 .env
 .vscode
