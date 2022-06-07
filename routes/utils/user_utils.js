@@ -18,7 +18,21 @@ async function createRecipe(user_id,recpiesDetials){ //TODO: Change recpiedDeitl
 
 }
 
+async function removeRecipe(user_id,Rid){
+    // get from DB all of the user favorits.
+    console.log("in removeRecipe !")//SELECT recipeId FROM userfavrecpies
+  
+    const recpiesIds = await DButils.execQuery(`SELECT recipeid FROM  userfavrecpies where user_id='${user_id}'`).then((recpies_id) => {
+        if (recpies_id.find((x) => x.recipeid === Rid)) {
+            let result = DButils.execQuery(`DELETE FROM  userfavrecpies where user_id ='${user_id}' AND recipeid='${Rid}'`);
+        }
+      });
+      return recpiesIds;
+  }
+
+
 
 exports.markAsFavorite = markAsFavorite;
 exports.createRecipe = createRecipe;
 exports.getFavoriteRecipes = getFavoriteRecipes;
+exports.removeRecipe = removeRecipe;

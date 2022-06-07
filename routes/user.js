@@ -52,6 +52,18 @@ router.get('/getfavorites', async (req,res,next) => {
   }
 });
 
+router.get("/removeRecipe", async (req, res, next) => {
+  console.log("in /removeRecipe");
+  const user_id = req.session.user_id;
+  try{
+    let results = await user_utils.removeRecipe(user_id, req.query.recipeID.slice(0,-1));
+    res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
+});
+
+
 
 router.post('/createRecipe', async (req,res,next) => {
   try{
