@@ -9,6 +9,7 @@ const DButils = require("../utils/DButils");
  */
 
 async function getRecipeInformation(recipe_id) {
+  console.log("in getRecipeInformation in recipes_utills.js");
   return await axios.get(`${api_domain}/${recipe_id}/information`, {
     params: {
       includeNutrition: false,

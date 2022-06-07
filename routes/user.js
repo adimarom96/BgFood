@@ -20,7 +20,6 @@ router.use(async function (req, res, next) {
   }
 });
 
-
 /**
  * This path gets body with recipeId and save this recipe in the favorites list of the logged-in user
  */
@@ -52,19 +51,23 @@ router.get('/getfavorites', async (req,res,next) => {
   }
 });
 
-router.get("/removeRecipe", async (req, res, next) => {
-  console.log("in /removeRecipe");
-  const user_id = req.session.user_id;
-  try{
-    let results = await user_utils.removeRecipe(user_id, req.query.recipeID.slice(0,-1));
-    res.status(200).send(results);
-  } catch (error) {
-    next(error);
-  }
-});
+/**
+ * remove recipe from favorites of a user
+ */
+// router.get("/removeRecipe", async (req, res, next) => {
+//   console.log("in /removeRecipe");
+//   const user_id = req.session.user_id;
+//   try{
+//     let results = await user_utils.removeRecipe(user_id, req.query.recipeID.slice(0,-1));
+//     res.status(200).send(results);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
-
-
+/**
+ * this path create new recipe
+ */
 router.post('/createRecipe', async (req,res,next) => {
   try{
     console.log(req.body.id);
@@ -84,14 +87,50 @@ router.post('/createRecipe', async (req,res,next) => {
     };
     
     const results = await user_utils.createRecipe(req.session.user_id,recpiesDetials);
-  
-   
     res.status(200).send(results);
   } catch(error){
     next(error); 
   }
 });
 
+/**
+ * This path create new Family recipe
+ */
+router.post('/createFamilyRecipe', async (req,res,next) => {
+  try{
+    console.log("createFamilyRecipe", req.body.id);
+
+    let recpiesDetials = {
+      title:req.body.title,
+      owner:req.body.owner,
+      whentomake:req.body.whentomake,
+      ingredients:req.body.ingredients,
+      instructions:req.body.instructions,
+      image:req.body.image
+    };
+    
+    const results = await user_utils.createFamilyRecipe(req.session.user_id,recpiesDetials);
+    res.status(200).send(results);
+  } catch(error){
+    next(error); 
+  }
+});
+
+/**
+ * This path returns the recipes that were created by the logged-in user.
+ */
+router.get('/getcreatedrecipes', async (req,res,next) => {
+  try{
+    const user_id = req.session.user_id;
+    const recipes_id = await user_utils.getCreatedRecipes(user_id);
+    let recipes_id_array = [];// check what is 'elemnt' !!!?????
+    recipes_id.map((element) => recipes_id_array.push(element)); //extracting the recipe into array
+    //const results = await recipe_utils.getRecipesPreview(recipes_id_array);
+    res.status(200).send(recipes_id_array);
+  } catch(error){
+    next(error); 
+  }
+});
 
 
 module.exports = router;
