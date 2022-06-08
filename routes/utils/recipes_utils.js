@@ -90,18 +90,26 @@ function extractPreviewRecipeDetails(recipes_info) {
   });
 }
 
-async function searchRecpies(numOfResult = 5, queryToSearch) {
+async function searchRecpies(numOfResult, queryToSearch,cuisine,diet,intolarence) {
+  //https://spoonacular.com/food-api/docs#Search-Recipes-Complex
   //TODO: need to makesure that all recpies have instracution, amonut of recpies return, filter\order and etc. check hw3 pdf
   const response = await axios.get(`${api_domain}/complexSearch`, {
     // this get/post
     params: {
       query: queryToSearch,
       number: numOfResult,
+      cuisine: cuisine,
+      diet:diet,
+      intolarences:intolarence,
       apiKey: process.env.spooncular_apiKey,
     },
   });
   let x = response.data;
-  return response.data.results;
+  //go throw all id, and then ask for the full/previw recipe.
+
+  // call for getRecipesPreview
+
+  return response.data;
 }
 
 async function getRecipesPreview(recipes_ids_list) {

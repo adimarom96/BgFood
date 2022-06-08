@@ -16,8 +16,17 @@ router.get("/", (req, res) => res.send("im here"));
 
 //recipes/search TODO: change the swager!
 router.get("/search", async (req, res, next) => { 
+  num = req.query.num;
+  if (!num){
+    num = 5;// defualt
+  }
+  word = req.query.recipeskeywords;
+  num = req.query.num;
+  cuisine = req.query.cuisine;
+  diet = req.query.diet;
+  intolarence = req.query.intolerance;
   try {
-    let searchRecpies = await recipes_utils.searchRecpies(5,req.query.recipeskeywords);
+    let searchRecpies = await recipes_utils.searchRecpies(num,word, cuisine,diet,intolarence);
     res.send(searchRecpies);
   } catch (error) {
     next(error);
@@ -55,16 +64,16 @@ router.get("/getFullRecipe", async (req, res, next) => {
  * This path returns a full details of a recipe by its id
  */
 // DELETE this? why does it needed ????
-router.get("/:recipeId", async (req, res, next) => {
-  console.log("in /:recipeId in recipes.js");
-  try {
-    let id = req.params.recipeId;
-    const recipe = await recipes_utils.getRecipeDetails(id);
-    res.send(recipe);
-  } catch (error) {
-    next(error);
-  }
-});
+// router.get("/:recipeId", async (req, res, next) => {
+//   console.log("in /:recipeId in recipes.js");
+//   try {
+//     let id = req.params.recipeId;
+//     const recipe = await recipes_utils.getRecipeDetails(id);
+//     res.send(recipe);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 
 
