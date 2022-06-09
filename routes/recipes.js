@@ -5,7 +5,7 @@ const recipes_utils = require("./utils/recipes_utils");
 router.get("/", (req, res) => res.send("im here"));
 
 //random
- router.get("/random", async (req, res, next) => { //TODO: for some resason its not return the answer at post man, just print it
+ router.get("/random", async (req, res, next) => {
   try {
     let random_3_recipes = await recipes_utils.getRandomRecipes();
     res.status(200).send(random_3_recipes);
@@ -55,6 +55,17 @@ router.get("/getFullRecipe", async (req, res, next) => {
     let id = req.query.recipe_id;
     const recipe = await recipes_utils.getRecipeDetails(id);
     res.send(recipe);
+  } catch (error) {
+    next(error);
+  }
+});
+
+router.get("/getLast3", async (req, res, next) => {
+  console.log("in /getLast3 in recipes.js");
+  try {
+    const user_id = req.session.user_id;
+    let recipes = await recipes_utils.getLast3(user_id);
+    res.status(200).send(recipes);
   } catch (error) {
     next(error);
   }
