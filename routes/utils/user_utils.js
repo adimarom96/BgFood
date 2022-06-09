@@ -72,9 +72,17 @@ async function getMyrecipes(user_id) {
   return recipes_id;
 }
 
+// returns all the created recipes by this user id
+async function addSeen(user_id, recipe_id) {
+  await DButils.execQuery(`INSERT INTO hw3.lastseen VALUES('${user_id}','${recipe_id}',NOW()) ON DUPLICATE KEY UPDATE date=NOW()`);
+  //`insert into lastseen values ('${username}','${recipe_id}',NOW()) ON DUPLICATE KEY UPDATE time=NOW()`
+
+}
+
 exports.markAsFavorite = markAsFavorite;
 exports.createRecipe = createRecipe;
 exports.getFavoriteRecipes = getFavoriteRecipes;
 exports.removeRecipe = removeRecipe;
 exports.createFamilyRecipe = createFamilyRecipe;
 exports.getMyrecipes = getMyrecipes;
+exports.addSeen = addSeen;

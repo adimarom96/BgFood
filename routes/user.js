@@ -40,7 +40,7 @@ router.post('/addfavorites', async (req, res, next) => {
 router.get('/getfavorites', async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
-    let favorite_recipes = {};
+    //let favorite_recipes = {};
     const recipes_id = await user_utils.getFavoriteRecipes(user_id);
     let recipes_id_array = [];
     recipes_id.map((element) => recipes_id_array.push(element.recipeid)); //extracting the recipe ids into array
@@ -50,20 +50,6 @@ router.get('/getfavorites', async (req, res, next) => {
     next(error);
   }
 });
-
-/**
- * remove recipe from favorites of a user
- */
-// router.get("/removeRecipe", async (req, res, next) => {
-//   console.log("in /removeRecipe");
-//   const user_id = req.session.user_id;
-//   try{
-//     let results = await user_utils.removeRecipe(user_id, req.query.recipeID.slice(0,-1));
-//     res.status(200).send(results);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 /**
  * this path create new recipe
@@ -131,5 +117,32 @@ router.get('/getMyrecipes', async (req, res, next) => {
     next(error);
   }
 });
+/**
+ * every time a user cliked on a recipe, we add it to the 'last seen' table in DB
+ */
+router.get('/addSeen', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    let recipeId = req.query.recipe_id;
+    const x = await user_utils.addSeen(user_id,recipeId);
+    res.status(200).send(`New Recipe add to 'last Seen' table: Uid: '${user_id}', Rid'${recipeId}'`);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * remove recipe from favorites of a user
+ */
+// router.get("/removeRecipe", async (req, res, next) => {
+//   console.log("in /removeRecipe");
+//   const user_id = req.session.user_id;
+//   try{
+//     let results = await user_utils.removeRecipe(user_id, req.query.recipeID.slice(0,-1));
+//     res.status(200).send(results);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 module.exports = router;
