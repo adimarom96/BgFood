@@ -14,8 +14,16 @@ async function getFavoriteRecipes(user_id){
 // create new recipe
 async function createRecipe(user_id,recpiesDetials){ //TODO: Change recpiedDeitlas.id -> real id
     console.log(recpiesDetials);
+    let x = await DButils.execQuery(
+      "SELECT MAX(recpieid) as id FROM hw3.userrecipes"
+    );
+    let maxid = x[0].id;
+    maxid++;
     await DButils.execQuery(
-        `INSERT INTO userrecipes VALUES ('${user_id}','${recpiesDetials.id}','${recpiesDetials.title}', '${recpiesDetials.readyInMinutes}', '${recpiesDetials.image}' , '${recpiesDetials.aggregateLikes}' , '${recpiesDetials.vegan}' , '${recpiesDetials.vegetarian}' , '${recpiesDetials.glutenFree}' , '${recpiesDetials.ingredients}', '${recpiesDetials.instructions}', '${recpiesDetials.numOfDishes}')`
+        `INSERT INTO userrecipes VALUES ('${user_id}','${maxid}','${recpiesDetials.title}',
+        '${recpiesDetials.readyInMinutes}', '${recpiesDetials.image}' , '${recpiesDetials.aggregateLikes}' , 
+        '${recpiesDetials.vegan}' , '${recpiesDetials.vegetarian}' , '${recpiesDetials.glutenFree}' , 
+        '${recpiesDetials.ingredients}', '${recpiesDetials.instructions}', '${recpiesDetials.numOfDishes}')`
       );
 
 }

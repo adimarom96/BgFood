@@ -73,7 +73,7 @@ router.post('/createRecipe', async (req,res,next) => {
     console.log(req.body.id);
 
     let recpiesDetials = {
-      id:req.body.id,
+      //id:req.body.id,
       title:req.body.title,
       readyInMinutes:req.body.readyInMinutes,
       image:req.body.image,
@@ -131,6 +131,5 @@ router.get('/getcreatedrecipes', async (req,res,next) => {
     next(error); 
   }
 });
-
 
 module.exports = router;
