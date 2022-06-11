@@ -9,7 +9,6 @@ const DButils = require("../utils/DButils");
  */
 
 async function getRecipeInformation(recipe_id) {
-  console.log("5.5");
   console.log("in getRecipeInformation in recipes_utills.js");
   return await axios.get(`${api_domain}/${recipe_id}/information`, {
     params: {
@@ -167,6 +166,11 @@ async function searchRecpies(numOfResult, queryToSearch,cuisine,diet,intolarence
    */
 }
 
+/**
+ * return preview of recipes
+ * TODO: need also to return if the user watched those recipes
+ * TODO: also returns if the user saved to to favorites.
+ */
 async function getRecipesPreview(recipes_ids_list) {
   let promises = [];
   recipes_ids_list.map((id) => {

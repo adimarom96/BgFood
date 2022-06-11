@@ -66,6 +66,7 @@ async function removeRecipe(user_id, Rid) {
   });
   return recpiesIds;
 }
+
 // returns all the created recipes by this user id
 async function getMyrecipes(user_id) {
   const recipes_id = await DButils.execQuery(`select * from userrecipes where user_id='${user_id}'`);
@@ -76,8 +77,16 @@ async function getMyrecipes(user_id) {
 async function addSeen(user_id, recipe_id) {
   await DButils.execQuery(`INSERT INTO hw3.lastseen VALUES('${user_id}','${recipe_id}',NOW()) ON DUPLICATE KEY UPDATE date=NOW()`);
   //`insert into lastseen values ('${username}','${recipe_id}',NOW()) ON DUPLICATE KEY UPDATE time=NOW()`
-
 }
+
+// checks if the user watched the full recipe with this id
+async function checkSeen(user_id, recipe_id) {
+  console.log("in check seen");
+  const ans = await DButils.execQuery(`SELECT * FROM hw3.lastseen WHERE user_id='${user_id}' AND recipe_id='${recipe_id}'`);
+  console.log(ans)  //`insert into lastseen values ('${username}','${recipe_id}',NOW()) ON DUPLICATE KEY UPDATE time=NOW()`
+  return ans;
+}
+
 
 exports.markAsFavorite = markAsFavorite;
 exports.createRecipe = createRecipe;
@@ -86,3 +95,4 @@ exports.removeRecipe = removeRecipe;
 exports.createFamilyRecipe = createFamilyRecipe;
 exports.getMyrecipes = getMyrecipes;
 exports.addSeen = addSeen;
+exports.checkSeen = checkSeen;

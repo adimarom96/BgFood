@@ -21,6 +21,38 @@ router.use(async function (req, res, next) {
 });
 
 /**
+ * This path returns the favorites recipes that were saved by the logged-in user
+ */
+ router.get('/getfavorites', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const recipes_id = await user_utils.getFavoriteRecipes(user_id);
+    let recipes_id_array = [];
+    recipes_id.map((element) => recipes_id_array.push(element.recipeid)); //extracting the recipe ids into array
+    const results = await recipe_utils.getRecipesPreview(recipes_id_array);
+    res.status(200).send(results);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
+ * This path returns the recipes that were created by the logged-in user.
+ */
+ router.get('/getMyrecipes', async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const recipes_id = await user_utils.getMyrecipes(user_id);
+    let recipes_id_array = [];// check what is 'elemnt' !!!?????
+    recipes_id.map((element) => recipes_id_array.push(element)); //extracting the recipe into array
+    //const results = await recipe_utils.getRecipesPreview(recipes_id_array);
+    res.status(200).send(recipes_id_array);
+  } catch (error) {
+    next(error);
+  }
+});
+
+/**
  * This path gets body with recipeId and save this recipe in the favorites list of the logged-in user
  */
 router.post('/addfavorites', async (req, res, next) => {
@@ -33,23 +65,6 @@ router.post('/addfavorites', async (req, res, next) => {
     next(error);
   }
 })
-
-/**
- * This path returns the favorites recipes that were saved by the logged-in user
- */
-router.get('/getfavorites', async (req, res, next) => {
-  try {
-    const user_id = req.session.user_id;
-    //let favorite_recipes = {};
-    const recipes_id = await user_utils.getFavoriteRecipes(user_id);
-    let recipes_id_array = [];
-    recipes_id.map((element) => recipes_id_array.push(element.recipeid)); //extracting the recipe ids into array
-    const results = await recipe_utils.getRecipesPreview(recipes_id_array);
-    res.status(200).send(results);
-  } catch (error) {
-    next(error);
-  }
-});
 
 /**
  * this path create new recipe
@@ -102,21 +117,6 @@ router.post('/createFamilyRecipe', async (req, res, next) => {
   }
 });
 
-/**
- * This path returns the recipes that were created by the logged-in user.
- */
-router.get('/getMyrecipes', async (req, res, next) => {
-  try {
-    const user_id = req.session.user_id;
-    const recipes_id = await user_utils.getMyrecipes(user_id);
-    let recipes_id_array = [];// check what is 'elemnt' !!!?????
-    recipes_id.map((element) => recipes_id_array.push(element)); //extracting the recipe into array
-    //const results = await recipe_utils.getRecipesPreview(recipes_id_array);
-    res.status(200).send(recipes_id_array);
-  } catch (error) {
-    next(error);
-  }
-});
 /**
  * every time a user cliked on a recipe, we add it to the 'last seen' table in DB
  */
