@@ -39,7 +39,10 @@ async function createRecipe(user_id, recpiesDetials) {
 
 }
 
-// create new family recipe
+/** 
+*create new family recipe 
+* TODO: DELETE this. no need at all. 
+*/
 async function createFamilyRecipe(user_id, recpiesDetials) {
   console.log(recpiesDetials);
   let x = await DButils.execQuery(

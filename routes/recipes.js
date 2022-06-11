@@ -1,11 +1,13 @@
 var express = require("express");
 var router = express.Router();
 const recipes_utils = require("./utils/recipes_utils");
-const user_utils = require("./utils/user_utils");
+
 
 router.get("/", (req, res) => res.send("im here"));
 
-//random
+/**
+ * Random: return 3 random recipes from the server.
+ */
 router.get("/random", async (req, res, next) => {
   try {
     let random_3_recipes = await recipes_utils.getRandomRecipes();
@@ -36,36 +38,8 @@ router.get("/getLast3", async (req, res, next) => {
 router.get("/getRecipesPrev", async (req, res, next) => {
   try {
     const ids = req.query.recpiesIds.split(",");
-    const recipe = await recipes_utils.getRecipesPreview(ids);
     const user_id = req.session.user_id;
-    // call for func that return if this user watched those recipes!
-    for (let i = 0; i < Object.keys(ids).length; i++) {
-      const f = await user_utils.checkSeen(user_id, ids[i]);
-      if (f[0] == null) {
-        recipe[i]["seen"] = false;
-      }
-      else {
-        recipe[i]["seen"] = true;
-      }
-    }
-
-    // call for func that check if this user saved those recipes to favorites. 
-    const f = await user_utils.getFavoriteRecipes(user_id);
-    for (let i = 0; i < Object.keys(ids).length; i++) {
-      for (let j = 0; j < Object.keys(f).length; j++) {
-        // if this recipe is in favList then add true as favorite.
-        if (f[j].recipeid == ids[i]) {
-          recipe[i]["favorite"] = true;
-          break;
-        }
-      }
-    }
-    // for each recipe that doesn't gets the true, now will get the false.
-    for (let i = 0; i < Object.keys(ids).length; i++) {
-      if (recipe[i]["favorite"] != true) {
-          recipe[i]["favorite"] = false;
-      }
-    }
+    const recipe = await recipes_utils.getRecipesPreview(ids,user_id);
     res.send(recipe);
   } catch (error) {
     next(error);
