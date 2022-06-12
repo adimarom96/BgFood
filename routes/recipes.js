@@ -64,17 +64,22 @@ router.get("/getFullRecipe", async (req, res, next) => {
  * recipes/search TODO: change the swager!
 */
 router.get("/search", async (req, res, next) => {
+  // if there is a logged IN user, then save his search, can use it in the front to show "the last search".
+  if (req.session && req.session.user_id){
+    req.session.last_search = req.session.recipeskeywords;
+  }
+  
   num = req.query.num;
   if (!num) {
     num = 5;// defualt
   }
   word = req.query.recipeskeywords;
-  num = req.query.num;
+ //num = req.query.num;
   cuisine = req.query.cuisine;
   diet = req.query.diet;
-  intolarence = req.query.intolerance;
+  intolerances = req.query.intolerances;
   try {
-    let searchRecpies = await recipes_utils.searchRecpies(num, word, cuisine, diet, intolarence);
+    let searchRecpies = await recipes_utils.searchRecpies(num, word, cuisine, diet, intolerances);
     res.send(searchRecpies);
   } catch (error) {
     next(error);

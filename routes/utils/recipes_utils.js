@@ -162,7 +162,7 @@ function extractPreviewRecipeDetails(recipes_info) {
  * @param {*} intolarence : list to filter by.
  * @returns 
  */
-async function searchRecpies(numOfResult, queryToSearch, cuisine, diet, intolarence) {
+async function searchRecpies(numOfResult, queryToSearch, cuisine, diet, intolerances) {
   //https://spoonacular.com/food-api/docs#Search-Recipes-Complex
   //TODO: need to makesure that all recpies have instracution, amonut of recpies return, filter\order and etc. check hw3 pdf
   const response = await axios.get(`${api_domain}/complexSearch`, {
@@ -172,7 +172,7 @@ async function searchRecpies(numOfResult, queryToSearch, cuisine, diet, intolare
       number: numOfResult,
       cuisine: cuisine,
       diet: diet,
-      intolarences: intolarence,
+      intolerances: intolerances,
       apiKey: process.env.spooncular_apiKey,
     },
   });
