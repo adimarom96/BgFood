@@ -1,6 +1,11 @@
 const DButils = require("./DButils");
 
-// make a specific recipe a favorite.
+/** 
+ * make a specific recipe a favorite.
+ * param: user id and recipe id.
+ * checks if already exist and if not, add this couple to DB.
+ */
+
 async function markAsFavorite(user_id, recipe_id) {
   let x = await DButils.execQuery(
     "SELECT recipeid as id FROM hw3.userfavrecpies"
@@ -9,14 +14,17 @@ async function markAsFavorite(user_id, recipe_id) {
   console.log(all)
   for (let i = 0; i < Object.keys(x).length; i++) {
     if (x[i].id == recipe_id) {
-      return; // TODO: what to return? or maybe this is just enogh
+      return;// there is also a record of this favorie with this user.
     }
   }
   // if not exist -> insert to DB
   await DButils.execQuery(`insert into userfavrecpies values ('${user_id}',${recipe_id})`);
 }
 
-// returns all fav's recipes of the user
+/**
+ * returns all favorites recipes of the user.
+ * param: user id, to pull from DB all his favorites.
+*/
 async function getFavoriteRecipes(user_id) {
   const recipes_id = await DButils.execQuery(`select recipeid from userfavrecpies where user_id='${user_id}'`);
   return recipes_id;
@@ -36,38 +44,6 @@ async function createRecipe(user_id, recpiesDetials) {
         '${recpiesDetials.vegan}' , '${recpiesDetials.vegetarian}' , '${recpiesDetials.glutenFree}' , 
         '${recpiesDetials.ingredients}', '${recpiesDetials.instructions}', '${recpiesDetials.numOfDishes}')`
   );
-
-}
-
-/** 
-*create new family recipe 
-* TODO: DELETE this. no need at all. 
-*/
-async function createFamilyRecipe(user_id, recpiesDetials) {
-  console.log(recpiesDetials);
-  let x = await DButils.execQuery(
-    "SELECT MAX(recipid) as id FROM hw3.userfamilyrecipes"
-  );
-  let maxid = x[0].id;
-  maxid++;
-  await DButils.execQuery(
-    `INSERT INTO userfamilyrecipes VALUES ('${user_id}','${maxid}','${recpiesDetials.title}', '${recpiesDetials.owner}', 
-      '${recpiesDetials.whentomake}' , '${recpiesDetials.ingredients}' , '${recpiesDetials.instructions}' , '${recpiesDetials.image}')`
-  );
-  console.log("success insert to family rec.")
-}
-
-// remove recipe from the user's fav' list
-async function removeRecipe(user_id, Rid) {
-  // get from DB all of the user favorits.
-  console.log("in removeRecipe !")//SELECT recipeId FROM userfavrecpies
-
-  const recpiesIds = await DButils.execQuery(`SELECT recipeid FROM userfavrecpies where user_id='${user_id}'`).then((recpies_id) => {
-    if (recpies_id.find((x) => x.recipeid === Rid)) {
-      let result = DButils.execQuery(`DELETE FROM userfavrecpies where user_id ='${user_id}' AND recipeid='${Rid}'`);
-    }
-  });
-  return recpiesIds;
 }
 
 // returns all the created recipes by this user id
@@ -90,12 +66,9 @@ async function checkSeen(user_id, recipe_id) {
   return ans;
 }
 
-
 exports.markAsFavorite = markAsFavorite;
 exports.createRecipe = createRecipe;
 exports.getFavoriteRecipes = getFavoriteRecipes;
-exports.removeRecipe = removeRecipe;
-exports.createFamilyRecipe = createFamilyRecipe;
 exports.getMyrecipes = getMyrecipes;
 exports.addSeen = addSeen;
 exports.checkSeen = checkSeen;

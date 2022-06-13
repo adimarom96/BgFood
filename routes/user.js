@@ -95,30 +95,6 @@ router.post('/createRecipe', async (req, res, next) => {
 });
 
 /**
- * This path create new Family recipe
- * TODO: DELTE this - no need at all. 
- */
-router.post('/createFamilyRecipe', async (req, res, next) => {
-  try {
-    console.log("createFamilyRecipe", req.body.id);
-
-    let recpiesDetials = {
-      title: req.body.title,
-      owner: req.body.owner,
-      whentomake: req.body.whentomake,
-      ingredients: req.body.ingredients,
-      instructions: req.body.instructions,
-      image: req.body.image
-    };
-
-    const results = await user_utils.createFamilyRecipe(req.session.user_id, recpiesDetials);
-    res.status(200).send(results);
-  } catch (error) {
-    next(error);
-  }
-});
-
-/**
  * every time a user cliked on a recipe, we add it to the 'last seen' table in DB
  */
 router.get('/addSeen', async (req, res, next) => {
@@ -131,19 +107,5 @@ router.get('/addSeen', async (req, res, next) => {
     next(error);
   }
 });
-
-/**
- * remove recipe from favorites of a user
- */
-// router.get("/removeRecipe", async (req, res, next) => {
-//   console.log("in /removeRecipe");
-//   const user_id = req.session.user_id;
-//   try{
-//     let results = await user_utils.removeRecipe(user_id, req.query.recipeID.slice(0,-1));
-//     res.status(200).send(results);
-//   } catch (error) {
-//     next(error);
-//   }
-// });
 
 module.exports = router;
