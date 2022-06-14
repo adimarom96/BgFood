@@ -28,79 +28,47 @@ async function getRecipeInformation(recipe_id) {
  * @param {*} recipe_id 
  * @returns put all tha data from the server in local var and returns it.
  */
-async function getRecipeDetails(recipe_id) {
+async function getRecipeDetails(recipe_id,user_id) {
   let recipe_info = await getRecipeInformation(recipe_id);
+  let recipeAll = await seenPlusFavorite([recipe_info.data],user_id,[recipe_id]);
+  console.log("a");
   let {
     id,
     title,
     image,
-    imageType,
     servings,
     readyInMinutes,
-    license,
-    sourceName, sourceUrl, spoonacularSourceUrl,
     aggregateLikes,
-    healthScore, spoonacularScore, pricePerServing,
-    analyzedInstructions, cheap, creditsText, cuisines,
-    dairyFree, diets, gaps,
     glutenFree,
-    instructions, ketogenic, lowFodmap, occasions,
-    sustainable,
+    instructions,
     vegan,
     vegetarian,
-    veryHealthy, veryPopular, whole30,
-    weightWatcherSmartPoints,
-    dishTypes,
     extendedIngredients,
-    summary, winePairing,
-  } = recipe_info.data;
+    seen,
+    favorite
+  } = recipeAll[0];
 
   return {
     id: id,
     title: title,
     image: image,
-    imageType: imageType,
     servings: servings,
     readyInMinutes: readyInMinutes,
-    license: license,
-    sourceName: sourceName,
-    sourceUrl: sourceUrl,
-    spoonacularSourceUrl: spoonacularSourceUrl,
     popularity: aggregateLikes,
-    healthScore: healthScore,
-    spoonacularScore: spoonacularScore,
-    pricePerServing: pricePerServing,
-    analyzedInstructions: analyzedInstructions,
-    cheap: cheap,
-    creditsText: creditsText,
-    cuisines: cuisines,
-    dairyFree: dairyFree,
-    diets: diets,
-    gaps: gaps,
     glutenFree: glutenFree,
     instructions: instructions,
-    ketogenic: ketogenic,
-    lowFodmap: lowFodmap,
-    occasions: occasions,
-    sustainable: sustainable,
     vegan: vegan,
     vegetarian: vegetarian,
-    veryHealthy: veryHealthy,
-    veryPopular: veryPopular,
-    whole30: whole30,
-    weightWatcherSmartPoints: weightWatcherSmartPoints,
-    dishTypes: dishTypes,
     extendedIngredients: extendedIngredients,
-    summary: summary,
-    winePairing: winePairing,
+    seen:seen,
+    favorite:favorite
   };
 }
 
 /**
- * 
  * @returns 3 random recipes from the server.
  */
-async function getRandomRecipes() {
+async function getRandomRecipes(user_id) {
   const response = await axios.get(`${api_domain}/random`, {
     // this get/post
     params: {
@@ -112,10 +80,11 @@ async function getRandomRecipes() {
     response.data.recipes[0],
     response.data.recipes[1],
     response.data.recipes[2],
-  ]); // TODO: might return less then three, need to fix - ????
-  console.log(previewRecips);
-  return previewRecips;
-  //return response.prevRecips;// wrong!
+  ]);
+  let idsLst = [previewRecips[0].id,previewRecips[1].id,previewRecips[2].id]
+  let res = seenPlusFavorite(previewRecips,user_id,idsLst);
+  console.log(res);
+  return res;
 }
 
 /**
@@ -155,11 +124,11 @@ function extractPreviewRecipeDetails(recipes_info) {
 
 /**
  * 
- * @param {*} numOfResult : how many reslut do i want to return to my search.
+ * @param {*} numOfResult   : how many reslut do i want to return to my search.
  * @param {*} queryToSearch : the word/term/food i want to find.
- * @param {*} cuisine : list to filter by.
- * @param {*} diet : list to filter by.
- * @param {*} intolarence : list to filter by.
+ * @param {*} cuisine       : list to filter by.
+ * @param {*} diet          : list to filter by.
+ * @param {*} intolarence   : list to filter by.
  * @returns 
  */
 async function searchRecpies(numOfResult, queryToSearch, cuisine, diet, intolerances) {
@@ -206,7 +175,13 @@ async function getRecipesPreview(recipes_ids_list,user_id) {
   });
   let info_res = await Promise.all(promises);
   let recipe = extractPreviewRecipeDetails(info_res);
-  // call for func that return if this user watched those recipes!
+  let res = seenPlusFavorite(recipe,user_id,recipes_ids_list);
+
+  console.log("get preview: ", res);
+  return res;
+}
+
+async function seenPlusFavorite(recipe,user_id,recipes_ids_list){
   let ids = recipes_ids_list;
   for (let i = 0; i < Object.keys(ids).length; i++) {
     const f = await user_utils.checkSeen(user_id, ids[i]);
@@ -235,9 +210,9 @@ async function getRecipesPreview(recipes_ids_list,user_id) {
       recipe[i]["favorite"] = false;
     }
   }
-  console.log("get preview: ", recipe);
   return recipe;
 }
+
 
 // return 3 last seen recipes of this user.
 async function getLast3(user_id) {

@@ -10,7 +10,8 @@ router.get("/", (req, res) => res.send("im here"));
  */
 router.get("/random", async (req, res, next) => {
   try {
-    let random_3_recipes = await recipes_utils.getRandomRecipes();
+    let user_id = req.session.user_id;
+    let random_3_recipes = await recipes_utils.getRandomRecipes(user_id);
     res.status(200).send(random_3_recipes);
   } catch (error) {
     next(error);
@@ -53,7 +54,8 @@ router.get("/getFullRecipe", async (req, res, next) => {
   console.log("in /getFullRecipe in recipes.js");
   try {
     let id = req.query.recipe_id;
-    const recipe = await recipes_utils.getRecipeDetails(id);
+    let user = req.session.user_id;
+    const recipe = await recipes_utils.getRecipeDetails(id,user);
     res.send(recipe);
   } catch (error) {
     next(error);
