@@ -3,6 +3,7 @@
     <div id="nav">
       <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
       <router-link :to="{ name: 'search' }">Search</router-link>|
+
       {{ !$root.store.username }}
       <span v-if="!$root.store.username">
         Guest:

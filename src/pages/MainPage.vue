@@ -1,13 +1,18 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
-    <RecipePreviewList title="Randome Recipes" class="RandomRecipes center" />
+    <RecipePreviewList
+      title="Randome Recipes"
+      state="random"
+      class="RandomRecipes center"
+    />
     <router-link v-if="!$root.store.username" to="/login" tag="button"
       >You need to Login to vue this</router-link
     >
     {{ !$root.store.username }}
     <RecipePreviewList
       title="Last Viewed Recipes"
+      state="last3"
       :class="{
         RandomRecipes: true,
         blur: !$root.store.username,
@@ -15,6 +20,7 @@
       }"
       disabled
     ></RecipePreviewList>
+
     <!-- <div
       style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
     >
@@ -26,34 +32,10 @@
 <script>
 import { async } from "q";
 import RecipePreviewList from "../components/RecipePreviewList";
+
 export default {
   components: {
     RecipePreviewList,
-  },
-  mounted() {
-    this.getRandom();
-  },
-
-  methods: {
-    async getRandom() {
-      try {
-        const response = await this.axios.get(
-          "http://localhost:3000/recipes/random",
-          {
-            params: {
-              limitLicense: true,
-              number: 3,
-            },
-          }
-        );
-        const recipes = response.data;
-        // this.recipes = [];
-        // this.recipes.push(...recipes);
-        console.log(recipes);
-      } catch (error) {
-        console.log(error);
-      }
-    },
   },
 };
 </script>
