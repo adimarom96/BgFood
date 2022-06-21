@@ -3,7 +3,7 @@ var router = express.Router();
 const MySql = require("../routes/utils/MySql");
 const DButils = require("../routes/utils/DButils");
 const bcrypt = require("bcrypt");
-const { max } = require("pg/lib/defaults");
+  const { max } = require("pg/lib/defaults");
 
 router.post("/Register", async (req, res, next) => {
   try {
@@ -12,8 +12,8 @@ router.post("/Register", async (req, res, next) => {
     // username exists
     let user_details = {
       username: req.body.username,
-      firstname: req.body.firstname,
-      lastname: req.body.lastname,
+      firstname: req.body.firstName,
+      lastname: req.body.lastName,
       country: req.body.country,
       password: req.body.password,
       email: req.body.email,
