@@ -28,9 +28,9 @@ async function getRecipeInformation(recipe_id) {
  * @param {*} recipe_id 
  * @returns put all tha data from the server in local var and returns it.
  */
-async function getRecipeDetails(recipe_id,user_id) {
+async function getRecipeDetails(recipe_id, user_id) {
   let recipe_info = await getRecipeInformation(recipe_id);
-  let recipeAll = await seenPlusFavorite([recipe_info.data],user_id,[recipe_id]);
+  let recipeAll = await seenPlusFavorite([recipe_info.data], user_id, [recipe_id]);
   console.log("a");
   let {
     id,
@@ -60,8 +60,8 @@ async function getRecipeDetails(recipe_id,user_id) {
     vegan: vegan,
     vegetarian: vegetarian,
     extendedIngredients: extendedIngredients,
-    seen:seen,
-    favorite:favorite
+    seen: seen,
+    favorite: favorite
   };
 }
 
@@ -70,20 +70,25 @@ async function getRecipeDetails(recipe_id,user_id) {
  */
 async function getRandomRecipes(user_id) {
   const response = await axios.get(`${api_domain}/random`, {
-    // this get/post
+    // get 10 overall but pick only 3 with image
     params: {
-      number: 3,
+      number: 10,
       apiKey: process.env.spooncular_apiKey,
     },
   });
-  let previewRecips = extractPreviewRecipeDetails([
-    response.data.recipes[0],
-    response.data.recipes[1],
-    response.data.recipes[2],
-  ]);
-  let idsLst = [previewRecips[0].id,previewRecips[1].id,previewRecips[2].id]
-  let res = seenPlusFavorite(previewRecips,user_id,idsLst);
-  console.log(res);
+  let flag = 0;
+  let onlyWithImage = []
+  for (let i = 0; i < Object.keys(response).length; i++) {
+    if (response.data.recipes[i].image != undefined) {
+      onlyWithImage.push(response.data.recipes[i]);
+      flag += 1;
+    }
+    if (flag == 3) { break }
+  }
+  console.log(onlyWithImage);
+  let previewRecips = extractPreviewRecipeDetails(onlyWithImage);
+  let idsLst = [previewRecips[0].id, previewRecips[1].id, previewRecips[2].id]
+  let res = seenPlusFavorite(previewRecips, user_id, idsLst);
   return res;
 }
 
@@ -168,20 +173,20 @@ async function searchRecpies(numOfResult, queryToSearch, cuisine, diet, intolera
  * @returns preview of recipes
  * check also if the user have seen this recipe before, and if add it to his favorites.
  */
-async function getRecipesPreview(recipes_ids_list,user_id) {
+async function getRecipesPreview(recipes_ids_list, user_id) {
   let promises = [];
   recipes_ids_list.map((id) => {
     promises.push(getRecipeInformation(id));
   });
   let info_res = await Promise.all(promises);
   let recipe = extractPreviewRecipeDetails(info_res);
-  let res = seenPlusFavorite(recipe,user_id,recipes_ids_list);
+  let res = seenPlusFavorite(recipe, user_id, recipes_ids_list);
 
   console.log("get preview: ", res);
   return res;
 }
 
-async function seenPlusFavorite(recipe,user_id,recipes_ids_list){
+async function seenPlusFavorite(recipe, user_id, recipes_ids_list) {
   let ids = recipes_ids_list;
   for (let i = 0; i < Object.keys(ids).length; i++) {
     const f = await user_utils.checkSeen(user_id, ids[i]);
