@@ -28,6 +28,26 @@ export default {
       type: String,
       required: true,
     },
+    recipeskeywords: {
+      type: String,
+      required: false,
+    },
+    cuisine: {
+      type: String,
+      required: false,
+    },
+    intolerances: {
+      type: String,
+      required: false,
+    },
+    diet: {
+      type: String,
+      required: false,
+    },
+    num: {
+      type: String,
+      required: false,
+    },
   },
   data() {
     return {
@@ -42,11 +62,49 @@ export default {
       case "last3":
         this.lastRecipes();
         break;
+      case "search":
+        this.onSearch();
       default:
-        console.log(" switch case defult");
+        console.log(" switch case defult -------->", this.state);
     }
   },
   methods: {
+    async onSearch() {
+      try {
+        console.log("on search");
+
+        if (this.recipeskeywords == "") {
+          console.log("quey is null");
+          return;
+        }
+        console.log(" query is : ", this.recipeskeywords);
+        const response = await this.axios.get(
+          "http://localhost:3000/recipes/search",
+          {
+            params: {
+              recipeskeywords: this.recipeskeywords,
+              cuisine: this.cuisine,
+              intolerances: this.intolerances,
+              diet: this.diet,
+              num: this.num,
+            },
+          }
+        );
+
+        console.log("on search , respones : ", response);
+        // this.$root.loggedIn = true;
+
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        this.$forceUpdate();
+        console.log("after force update");
+        console.log(this.recipes);
+      } catch (err) {
+        console.log(err.response);
+        this.form.submitError = err.response.data.message;
+      }
+    },
     async randomRecipes() {
       try {
         const response = await this.axios.get(

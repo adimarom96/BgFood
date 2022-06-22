@@ -5,7 +5,7 @@
       <b-form-group id="input-group-search" label="search:" label-for="search">
         <b-form-input
           id="search"
-          v-model="form.recipeskeyword"
+          v-model="form.recipeskeywords"
           placeholder="Enter your query here"
           type="search"
           required
@@ -14,9 +14,50 @@
       </b-form-group>
     </b-form>
 
+    cuisine:
+    <select v-model="cuisine">
+      <option v-for="(c,index) in cuisineArray" :key="index" :value="c.value">
+        {{ c.text }}  
+      </option>
+    </select>
+    <br>
+    <div>Selected: {{ cuisine }}</div>
+    <br>
+    intolerances
+    <select v-model="intolerances"  >
+      <option v-for="(i,index) in intolerancesArray" :key="index" :value="i.value">
+        {{ i.text }}  
+      </option>
+    </select>
+    <br>
+    <div>Selected: {{ intolerances }}</div>
+    <br>
+    diet
+    <select v-model="diet">
+      <option v-for="(d,index) in dietArray" :key="index" :value="d.value">
+        {{ d.text }}  
+      </option>
+    </select>
+    <br>
+    <div>Selected: {{ diet }}</div>
+    <br>
+    num
+    <select v-model="num">
+      <option v-for="(n,index) in numArray" :key="index" :value="n.value">
+        {{ n.text }}  
+      </option>
+    </select>
+    <div>Selected: {{ num }}</div>
+
     <RecipePreviewList
+      v-if="this.clicked"
       title="Search Result"
-      state="random"
+      state="search"
+      :recipeskeywords="this.recipeskeywords"
+      :cuisine="this.cuisine"
+      :intolerances="this.intolerances"
+      :diet="this.diet"
+      :num="this.num"
       class="RandomRecipes center"
     />
   </div>
@@ -31,28 +72,26 @@ export default {
   },
   data() {
     return {
-      form: {
-        search: "",
-      },
+      recipeskeywords: "",
+      cuisine: "",
+      cuisineArray:[{text:"None",value:""},{text:"African",value:"African"},{text:"American",value:"American"},{text:"British",value:"British"},{text:"Cajun",value:"Cajun"},{text:"Caribbean",value:"Caribbean"},{text:"Chinese",value:"Chinese"},{text:"Eastern European",value:"Eastern European"},{text:"European",value:"European"},{text:"French",value:"French"},{text:"German",value:"German"},{text:"Greek",value:"Greek"},{text:"Indian",value:"Indian"},{text:"Irish",value:"Irish"},{text:"Italian",value:"Italian"},{text:"Japanese",value:"Japanese"},{text:"Jewish",value:"Jewish"},{text:"Korean",value:"Korean"},{text:"Latin American",value:"Latin American"},{text:"Mediterranean",value:"Mediterranean"},{text:"Mexican",value:"Mexican"},{text:"Middle Eastern",value:"Middle Eastern"},{text:"Nordic",value:"Nordic"},{text:"Southern",value:"Southern"},{text:"Spanish",value:"Spanish"},{text:"Thai",value:"Thai"},{text:"Vietnamese",value:"Vietnamese"}],
+      intolerancesArray:[{text:"None",value:""},{text:"Dairy",value:"Dairy"},{text:"Egg",value:"Egg"},{text:"Gluten",value:"Gluten"},{text:"Grain",value:"Grain"},{text:"Peanut",value:"Peanut"},{text:"Seafood",value:"Seafood"},{text:"Sesame",value:"Sesame"},{text:"Shellfish",value:"Shellfish"},{text:"Soy",value:"Soy"},{text:"Sulfite",value:"Sulfite"},{text:"Tree Nut",value:"Tree Nut"},{text:"Wheat",value:"Wheat"}],
+      dietArray:[{text:"None",value:""},{text:"Gluten Free",value:"Gluten Free"},{text:"Ketogenic",value:"Ketogenic"},{text:"Vegetarian",value:"Vegetarian"},{text:"Lacto-Vegetarian",value:"Lacto-Vegetarian"},{text:"Ovo-Vegetarian",value:"Ovo-Vegetarian"},{text:"Vegan",value:"Vegan"},{text:"Pescetarian",value:"Pescetarian"},{text:"Paleo",value:"Paleo"},{text:"Primal",value:"Primal"},{text:"Low FODMAP",value:"Low FODMAP"},{text:"Whole30",value:"Whole30"}],
+      num:5,
+      numArray:[{text:"5",value:"5"},{text:"10",value:"10"},{text:"15",value:"15"}],
+      intolerances: "",
+      diet: "",
+
+      form: {},
+      clicked: false,
     };
   },
   methods: {
     async onSearch() {
-      try {
-        console.log(this.form.recipeskeyword);
-        const response = await this.axios.get(
-          "http://localhost:3000/recipes/search",
-          { params: { recipeskeyword: this.form.recipeskeyword } }
-        );
-
-        console.log(response);
-        // this.$root.loggedIn = true;
-
-        this.$router.push("/");
-      } catch (err) {
-        console.log(err.response);
-        this.form.submitError = err.response.data.message;
-      }
+      this.recipeskeywords = this.form.recipeskeywords;
+      console.log("sumbit click with ", this.form.recipeskeywords);
+      this.clicked = true;
+      this.$forceUpdate();
     },
   },
 };

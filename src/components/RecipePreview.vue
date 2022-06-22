@@ -15,9 +15,17 @@
       <ul class="recipe-overview">
         <li>{{ recipe.readyInMinutes }} minutes</li>
         <li>{{ recipe.popularity }} likes</li>
+        <li>{{ recipe.seen }} : seen?</li>
         <li>
-          <button type="button" @click="like(recipe.id).prevent">
+          <button
+            v-if="recipe.favorite === false"
+            type="button"
+            @click="like(recipe.id).prevent"
+          >
             <b-icon icon="heart"></b-icon>
+          </button>
+          <button v-else type="button" @click="like(recipe.id).prevent">
+            <b-icon icon="heart-fill"></b-icon>
           </button>
         </li>
       </ul>
@@ -40,14 +48,15 @@ export default {
   methods: {
     async like(recipeId) {
       try {
+        recipe.favorite = true;
         const response = await this.axios.post(
           "http://localhost:3000/users/addfavorites",
-
           {
             recipeid: recipeId,
           }
         );
         console.log(response);
+        this.$forceUpdate();
         // this.$root.loggedIn = true;
       } catch (err) {
         console.log(err.response);
