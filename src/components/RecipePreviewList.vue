@@ -65,26 +65,24 @@ export default {
       }
     },
     async lastRecipes() {
-    try {
-      console.log("adsadasd");
-      const response = await this.axios.get(
-        "http://localhost:3000/recipes/getLast3"
-        //this.$root.store.server_domain + "/recipes/random",
-        // "https://test-for-3-2.herokuapp.com/recipes/random"
-      );
+      try {
+        console.log("adsadasd");
+        const response = await this.axios.get(
+          "http://localhost:3000/recipes/getLast3"
+          //this.$root.store.server_domain + "/recipes/random",
+          // "https://test-for-3-2.herokuapp.com/recipes/random"
+        );
 
-      // console.log(response);
-      const recipes = response.data;
-      this.recipes = [];
-      this.recipes.push(...recipes);
-      console.log(this.recipes);
-    } catch (error) {
-      console.log(error);
-    }
+        // console.log(response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        console.log(this.recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
-    
-  },
-  
 };
 </script>
 

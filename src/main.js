@@ -11,6 +11,7 @@ const router = new VueRouter({
 });
 
 import Vuelidate from "vuelidate";
+import { BootstrapVue, BootstrapVueIcons } from "bootstrap-vue";
 import "bootstrap/dist/css/bootstrap.css";
 import "bootstrap-vue/dist/bootstrap-vue.css";
 import {
@@ -36,6 +37,8 @@ import {
   AlertPlugin,
   ToastPlugin,
   LayoutPlugin,
+  BootstrapVue,
+  BootstrapVueIcons,
 ].forEach((x) => Vue.use(x));
 Vue.use(Vuelidate);
 

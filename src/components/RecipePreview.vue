@@ -1,21 +1,28 @@
 <template>
-  <router-link
-    :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
-    class="recipe-preview"
-  >
-    <div class="recipe-body">
-      <img v-if="image_load" :src="recipe.image" class="recipe-image" />
-    </div>
+  <div>
+    <router-link
+      :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+      class="recipe-preview"
+    >
+      <div class="recipe-body">
+        <img v-if="image_load" :src="recipe.image" class="recipe-image" />
+      </div>
+    </router-link>
     <div class="recipe-footer">
       <div :title="recipe.title" class="recipe-title">
         {{ recipe.title }}
       </div>
       <ul class="recipe-overview">
         <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
+        <li>{{ recipe.popularity }} likes</li>
+        <li>
+          <button type="button" @click="like(recipe.id).prevent">
+            <b-icon icon="heart"></b-icon>
+          </button>
+        </li>
       </ul>
     </div>
-  </router-link>
+  </div>
 </template>
 
 <script>
@@ -27,14 +34,31 @@ export default {
   },
   data() {
     return {
-      image_load: false
+      image_load: false,
     };
+  },
+  methods: {
+    async like(recipeId) {
+      try {
+        const response = await this.axios.post(
+          "http://localhost:3000/users/addfavorites",
+
+          {
+            recipeid: recipeId,
+          }
+        );
+        console.log(response);
+        // this.$root.loggedIn = true;
+      } catch (err) {
+        console.log(err.response);
+      }
+    },
   },
   props: {
     recipe: {
       type: Object,
-      required: true
-    }
+      required: true,
+    },
 
     // id: {
     //   type: Number,
@@ -59,7 +83,7 @@ export default {
     //     return undefined;
     //   }
     // }
-  }
+  },
 };
 </script>
 
