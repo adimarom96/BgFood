@@ -62,7 +62,7 @@ export default {
         //   }
         // );
         const response = await this.axios.get(
-          "http://localhost:3000/recipes/getFullRecipe",
+          "http://localhost:3000/recipes/getFullRecipe",{withCredentials : true},
           {
             params: {
               recipe_id: this.$route.params.recipeId,

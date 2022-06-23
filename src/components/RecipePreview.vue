@@ -58,7 +58,7 @@ export default {
       try {
         recipe.favorite = true;
         const response = await this.axios.post(
-          "http://localhost:3000/users/addfavorites",
+          "http://localhost:3000/users/addfavorites",{withCredentials : true},
           {
             recipeid: recipeId,
           }

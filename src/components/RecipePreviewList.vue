@@ -74,7 +74,7 @@ export default {
     async onFavorites() {
       try {
         const response = await this.axios.get(
-          "http://localhost:3000/users/getfavorites"
+          "http://localhost:3000/users/getfavorites",{withCredentials : true}
           //this.$root.store.server_domain + "/recipes/random",
           // "https://test-for-3-2.herokuapp.com/recipes/random"
         );
@@ -91,15 +91,13 @@ export default {
 
     async onSearch() {
       try {
-        console.log("on search");
-
         if (this.recipeskeywords == "") {
           console.log("quey is null");
           return;
         }
         console.log(" query is : ", this.recipeskeywords);
         const response = await this.axios.get(
-          "http://localhost:3000/recipes/search",
+          "http://localhost:3000/recipes/search",{withCredentials : true},
           {
             params: {
               recipeskeywords: this.recipeskeywords,
@@ -128,7 +126,7 @@ export default {
     async randomRecipes() {
       try {
         const response = await this.axios.get(
-          "http://localhost:3000/recipes/random"
+          "http://localhost:3000/recipes/random",{withCredentials : true}
           //this.$root.store.server_domain + "/recipes/random",
           // "https://test-for-3-2.herokuapp.com/recipes/random"
         );
