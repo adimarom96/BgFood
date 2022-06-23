@@ -2,7 +2,6 @@ var express = require("express");
 var router = express.Router();
 const recipes_utils = require("./utils/recipes_utils");
 
-
 router.get("/", (req, res) => res.send("im here"));
 
 /**
@@ -33,9 +32,9 @@ router.get("/getLast3", async (req, res, next) => {
 });
 
 /**
-* getPreview - list of ides
-* returns preview of all the id's recipe.
-*/
+ * getPreview - list of ides
+ * returns preview of all the id's recipe.
+ */
 router.get("/getRecipesPrev", async (req, res, next) => {
   try {
     const ids = req.query.recpiesIds.split(",");
@@ -55,7 +54,7 @@ router.get("/getFullRecipe", async (req, res, next) => {
   try {
     let id = req.query.recipe_id;
     let user = req.session.user_id;
-    const recipe = await recipes_utils.getRecipeDetails(id,user);
+    const recipe = await recipes_utils.getRecipeDetails(id, user);
     res.send(recipe);
   } catch (error) {
     next(error);
@@ -64,9 +63,8 @@ router.get("/getFullRecipe", async (req, res, next) => {
 
 /**
  * recipes/search TODO: change the swager!
-*/
+ */
 router.get("/search", async (req, res, next) => {
-
   // if there is a logged IN user, then save his search, can use it in the front to show "the last search".
   if (req.session && req.session.user_id) {
     req.session.last_search = req.session.recipeskeywords;
@@ -74,7 +72,7 @@ router.get("/search", async (req, res, next) => {
 
   num = req.query.num;
   if (!num) {
-    num = 5;// defualt
+    num = 5; // defualt
   }
   word = req.query.recipeskeywords;
   //num = req.query.num;
@@ -82,12 +80,17 @@ router.get("/search", async (req, res, next) => {
   diet = req.query.diet;
   intolerances = req.query.intolerances;
   try {
-    let searchRecpies = await recipes_utils.searchRecpies(num, word, cuisine, diet, intolerances);
+    let searchRecpies = await recipes_utils.searchRecpies(
+      num,
+      word,
+      cuisine,
+      diet,
+      intolerances
+    );
     res.send(searchRecpies);
   } catch (error) {
     next(error);
   }
 });
-
 
 module.exports = router;

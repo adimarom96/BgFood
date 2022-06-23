@@ -16,6 +16,7 @@ const user_utils = require("./user_utils");
  */
 async function getRecipeInformation(recipe_id) {
   console.log("in getRecipeInformation in recipes_utills.js");
+  
   return await axios.get(`${api_domain}/${recipe_id}/information`, {
     params: {
       includeNutrition: false,
@@ -25,12 +26,15 @@ async function getRecipeInformation(recipe_id) {
 }
 
 /**
- * @param {*} recipe_id 
+ * @param {*} recipe_id
  * @returns put all tha data from the server in local var and returns it.
  */
 async function getRecipeDetails(recipe_id, user_id) {
   let recipe_info = await getRecipeInformation(recipe_id);
-  let recipeAll = await seenPlusFavorite([recipe_info.data], user_id, [recipe_id]);
+  
+  let recipeAll = await seenPlusFavorite([recipe_info.data], user_id, [
+    recipe_id,
+  ]);
   console.log("a");
   let {
     id,
@@ -44,8 +48,9 @@ async function getRecipeDetails(recipe_id, user_id) {
     vegan,
     vegetarian,
     extendedIngredients,
+    analyzedInstructions,
     seen,
-    favorite
+    favorite,
   } = recipeAll[0];
 
   return {
@@ -60,8 +65,9 @@ async function getRecipeDetails(recipe_id, user_id) {
     vegan: vegan,
     vegetarian: vegetarian,
     extendedIngredients: extendedIngredients,
+    analyzedInstructions: analyzedInstructions,
     seen: seen,
-    favorite: favorite
+    favorite: favorite,
   };
 }
 
@@ -77,24 +83,26 @@ async function getRandomRecipes(user_id) {
     },
   });
   let flag = 0;
-  let onlyWithImage = []
+  let onlyWithImage = [];
   for (let i = 0; i < Object.keys(response).length; i++) {
     if (response.data.recipes[i].image != undefined) {
       onlyWithImage.push(response.data.recipes[i]);
       flag += 1;
     }
-    if (flag == 3) { break }
+    if (flag == 3) {
+      break;
+    }
   }
   console.log(onlyWithImage);
   let previewRecips = extractPreviewRecipeDetails(onlyWithImage);
-  let idsLst = [previewRecips[0].id, previewRecips[1].id, previewRecips[2].id]
+  let idsLst = [previewRecips[0].id, previewRecips[1].id, previewRecips[2].id];
   let res = seenPlusFavorite(previewRecips, user_id, idsLst);
   return res;
 }
 
 /**
- * 
- * @param {*} recipes_info 
+ *
+ * @param {*} recipes_info
  * @returns preview of all the rescipes in this list of ids.
  */
 function extractPreviewRecipeDetails(recipes_info) {
@@ -128,15 +136,21 @@ function extractPreviewRecipeDetails(recipes_info) {
 }
 
 /**
- * 
+ *
  * @param {*} numOfResult   : how many reslut do i want to return to my search.
  * @param {*} queryToSearch : the word/term/food i want to find.
  * @param {*} cuisine       : list to filter by.
  * @param {*} diet          : list to filter by.
  * @param {*} intolarence   : list to filter by.
- * @returns 
+ * @returns
  */
-async function searchRecpies(numOfResult, queryToSearch, cuisine, diet, intolerances) {
+async function searchRecpies(
+  numOfResult,
+  queryToSearch,
+  cuisine,
+  diet,
+  intolerances
+) {
   //https://spoonacular.com/food-api/docs#Search-Recipes-Complex
   //TODO: need to makesure that all recpies have instracution, amonut of recpies return, filter\order and etc. check hw3 pdf
   const response = await axios.get(`${api_domain}/complexSearch`, {
@@ -169,7 +183,7 @@ async function searchRecpies(numOfResult, queryToSearch, cuisine, diet, intolera
 }
 
 /**
- * @param {*} recipes_ids_list 
+ * @param {*} recipes_ids_list
  * @returns preview of recipes
  * check also if the user have seen this recipe before, and if add it to his favorites.
  */
@@ -188,17 +202,19 @@ async function getRecipesPreview(recipes_ids_list, user_id) {
 
 async function seenPlusFavorite(recipe, user_id, recipes_ids_list) {
   let ids = recipes_ids_list;
+  if (user_id == null) {
+    return recipe;
+  }
   for (let i = 0; i < Object.keys(ids).length; i++) {
     const f = await user_utils.checkSeen(user_id, ids[i]);
     if (f[0] == null) {
       recipe[i]["seen"] = false;
-    }
-    else {
+    } else {
       recipe[i]["seen"] = true;
     }
   }
 
-  // call for func that check if this user saved those recipes to favorites. 
+  // call for func that check if this user saved those recipes to favorites.
   const f = await user_utils.getFavoriteRecipes(user_id);
   for (let i = 0; i < Object.keys(ids).length; i++) {
     for (let j = 0; j < Object.keys(f).length; j++) {
@@ -218,7 +234,6 @@ async function seenPlusFavorite(recipe, user_id, recipes_ids_list) {
   return recipe;
 }
 
-
 // return 3 last seen recipes of this user.
 async function getLast3(user_id) {
   let threeLast = [];
@@ -228,7 +243,7 @@ async function getLast3(user_id) {
     `SELECT * FROM hw3.lastseen where user_id='${user_id}' ORDER BY date DESC LIMIT 3`
   );
   for (let i = 0; i < Object.keys(x).length; i++) {
-    threeLast.push(x[i].recipe_id)
+    threeLast.push(x[i].recipe_id);
   }
   let prev3 = getRecipesPreview(threeLast);
   return prev3;
