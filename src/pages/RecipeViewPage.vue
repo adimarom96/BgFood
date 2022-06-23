@@ -110,7 +110,7 @@ export default {
 
       this.recipe = _recipe;
     } catch (error) {
-      console.log(error);
+      console.log(error.response.data);
     }
   },
 };

@@ -24,13 +24,16 @@
       <ul class="recipe-overview">
         <li>{{ recipe.readyInMinutes }} minutes</li>
         <li>{{ recipe.popularity }} likes</li>
-        <li>{{ recipe.seen }} : seen?</li>
-        <li>
-          <button
-            v-if="recipe.favorite === false"
-            type="button"
-            @click="like().prevent"
-          >
+        <li>Watched?
+        <button disabled v-if="recipe.seen === false" type="button">
+            <b-icon icon="Eye-fill"></b-icon>
+          </button>
+          <button disabled v-else type="button">
+            <b-icon icon="Eye"></b-icon>
+          </button>
+        </li>
+        <li>Favorite?
+          <button v-if="recipe.favorite === false" type="button" @click="like(recipe.id).prevent">
             <b-icon icon="heart"></b-icon>
           </button>
           <button v-else type="button" @click="like(recipe.id).prevent">
@@ -118,7 +121,8 @@ export default {
   position: relative;
   margin: 10px 10px;
 }
-.recipe-preview > .recipe-body {
+
+.recipe-preview>.recipe-body {
   width: 100%;
   height: 200px;
   position: relative;
