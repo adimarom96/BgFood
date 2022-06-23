@@ -9,6 +9,8 @@
     <router-link v-if="!$root.store.username" to="/login" tag="button"
       >You need to Login to vue this</router-link
     >
+     <b-button variant="outline-primary" @click="Random()">Random Recipes</b-button>
+
     {{ !$root.store.username }}
     <RecipePreviewList
       title="Last Viewed Recipes"
@@ -20,6 +22,9 @@
       }"
       disabled
     ></RecipePreviewList>
+
+   
+
 
     <!-- <div
       style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
@@ -37,7 +42,14 @@ export default {
   components: {
     RecipePreviewList,
   },
+  methods:{
+  async Random(){
+  this.$forceUpdate();
+  console.log("adi");
+  },
+}
 };
+
 </script>
 
 <style lang="scss" scoped>
