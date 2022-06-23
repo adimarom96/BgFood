@@ -17,10 +17,17 @@ const routes = [
     name: "login",
     component: () => import("./pages/LoginPage"),
   },
-  { path: "/about",
-  name: "about",
-  component: () => import("./pages/About"),
-},
+  { path: "/about", name: "about", component: () => import("./pages/About") },
+  {
+    path: "/myRecipes",
+    name: "myRecipes",
+    component: () => import("./pages/MyRecipes"),
+  },
+  {
+    path: "/familyRecpies",
+    name: "familyRecpies",
+    component: () => import("./pages/FamilyRecpies"),
+  },
   {
     path: "/favorites",
     name: "favorites",

@@ -145,7 +145,7 @@ export default {
     async lastRecipes() {
       try {
         const response = await this.axios.get(
-          "http://localhost:3000/recipes/getLast3"
+          "http://localhost:3000/recipes/getLast3",{withCredentials : true}
           //this.$root.store.server_domain + "/recipes/random",
           // "https://test-for-3-2.herokuapp.com/recipes/random"
         );

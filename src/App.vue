@@ -5,6 +5,8 @@
       <router-link :to="{ name: 'search' }">Search</router-link>|
       <router-link :to="{ name: 'favorites' }">Favorites</router-link>|
       <router-link :to="{ name: 'about' }">About</router-link>|
+      <router-link :to="{ name: 'myRecipes' }">myRecipes</router-link>|
+      <router-link :to="{ name: 'familyRecpies' }">familyRecpies</router-link>|
       {{ !$root.store.username }}
       <span v-if="!$root.store.username">
         Guest:
