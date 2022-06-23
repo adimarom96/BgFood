@@ -1,9 +1,17 @@
 <template>
   <div>
     <router-link
-      :to="{ name: 'recipe', params: { recipeId: recipe.id } }"
+      :to="{
+         name: 'recipe',
+         params: { recipeId: recipe.id } }"
       class="recipe-preview"
     >
+    <!-- <router-link
+      :to="{
+        path: '/recipes/getFullRecipe/',
+        query: { recipe_id: recipe.id },
+      }"
+    > -->
       <div class="recipe-body">
         <img v-if="image_load" :src="recipe.image" class="recipe-image" />
       </div>

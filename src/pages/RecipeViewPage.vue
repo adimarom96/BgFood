@@ -10,7 +10,7 @@
           <div class="wrapped">
             <div class="mb-3">
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
+              <div>Likes: {{ recipe.popularity }} likes</div>
             </div>
             Ingredients:
             <ul>
@@ -45,64 +45,74 @@
 export default {
   data() {
     return {
-      recipe: null
+      recipe: null,
     };
   },
   async created() {
     try {
-      let response;
-      // response = this.$route.params.response;
 
-      try {
-        response = await this.axios.get(
-          // "https://test-for-3-2.herokuapp.com/recipes/info",
-          this.$root.store.server_domain + "/recipes/info",
+      // response = this.$route.params.response;
+      // try {
+        // response = await this.axios.get(
+        //   // "https://test-for-3-2.herokuapp.com/recipes/info",
+        //   //this.$root.store.server_domain + "/recipes/info",
+        //     "/recipes/",
+        //   {
+        //     params: { id: this.$route.params.recipeId },
+        //   }
+        // );
+        const response = await this.axios.get(
+          "http://localhost:3000/recipes/getFullRecipe",
           {
-            params: { id: this.$route.params.recipeId }
+            params: {
+              recipe_id: this.$route.params.recipeId,
+            },
           }
         );
 
-        // console.log("response.status", response.status);
+        console.log("data:   ", response.data);
         if (response.status !== 200) this.$router.replace("/NotFound");
-      } catch (error) {
-        console.log("error.response.status", error.response.status);
-        this.$router.replace("/NotFound");
-        return;
-      }
-
+      // } catch (error) {
+      //   console.log("error.response.status", error.response.status);
+      //   this.$router.replace("/NotFound");
+      //   return;
+      // }
+      console.log("line 82");
       let {
         analyzedInstructions,
         instructions,
         extendedIngredients,
-        aggregateLikes,
+        popularity,
         readyInMinutes,
         image,
-        title
-      } = response.data.recipe;
+        title,
+      } = response.data;
 
+
+      console.log("line 92");
       let _instructions = analyzedInstructions
         .map((fstep) => {
           fstep.steps[0].step = fstep.name + fstep.steps[0].step;
           return fstep.steps;
         })
         .reduce((a, b) => [...a, ...b], []);
-
+      console.log("line 92");
       let _recipe = {
         instructions,
         _instructions,
         analyzedInstructions,
         extendedIngredients,
-        aggregateLikes,
+        popularity,
         readyInMinutes,
         image,
-        title
+        title,
       };
 
       this.recipe = _recipe;
     } catch (error) {
       console.log(error);
     }
-  }
+  },
 };
 </script>
 

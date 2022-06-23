@@ -124,7 +124,7 @@ export default {
     },
     async lastRecipes() {
       try {
-        console.log("adsadasd");
+        
         const response = await this.axios.get(
           "http://localhost:3000/recipes/getLast3"
           //this.$root.store.server_domain + "/recipes/random",
