@@ -2,11 +2,12 @@
   <div>
     <router-link
       :to="{
-         name: 'recipe',
-         params: { recipeId: recipe.id } }"
+        name: 'recipe',
+        params: { recipeId: recipe.id },
+      }"
       class="recipe-preview"
     >
-    <!-- <router-link
+      <!-- <router-link
       :to="{
         path: '/recipes/getFullRecipe/',
         query: { recipe_id: recipe.id },
@@ -28,7 +29,7 @@
           <button
             v-if="recipe.favorite === false"
             type="button"
-            @click="like(recipe.id).prevent"
+            @click="like().prevent"
           >
             <b-icon icon="heart"></b-icon>
           </button>
@@ -54,15 +55,20 @@ export default {
     };
   },
   methods: {
-    async like(recipeId) {
+    async like() {
       try {
-        recipe.favorite = true;
-        const response = await this.axios.post(
-          "http://localhost:3000/users/addfavorites",{withCredentials : true},
-          {
-            recipeid: recipeId,
-          }
+        console.log("in fav", this.recipe.id);
+        this.recipe.favorite = true;
+        const response = await this.axios.get(
+          "http://localhost:3000/users/addfavorites?recipeid="+this.recipe.id
+          ,{ withCredentials: true },
+          // {
+          //   params: {
+          //     recipeid: this.recipe.id,
+          //   },
+          // }
         );
+
         console.log(response);
         this.$forceUpdate();
         // this.$root.loggedIn = true;
