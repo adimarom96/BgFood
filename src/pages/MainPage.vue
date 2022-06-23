@@ -5,11 +5,14 @@
       >You need to Login to vue this</router-link
     >
     <RecipePreviewList
+      :key="componentKey"
       title="Randome Recipes"
       state="random"
       class="RandomRecipes center"
     />
-    
+    <b-button variant="outline-primary" @click="Random()"
+      >Random Recipes</b-button
+    >
     <RecipePreviewList
       title="Last Viewed Recipes"
       state="last3"
@@ -20,9 +23,6 @@
       }"
       disabled
     ></RecipePreviewList>
-
-   
-
 
     <!-- <div
       style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
@@ -37,17 +37,21 @@ import { async } from "q";
 import RecipePreviewList from "../components/RecipePreviewList";
 
 export default {
+  data() {
+    return {
+      componentKey: 0,
+    };
+  },
   components: {
     RecipePreviewList,
   },
-  methods:{
-  async Random(){
-  this.$forceUpdate();
-  console.log("adi");
+  methods: {
+    async Random() {
+      this.componentKey += 1;
+      console.log("adi");
+    },
   },
-}
 };
-
 </script>
 
 <style lang="scss" scoped>
