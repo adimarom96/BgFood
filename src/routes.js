@@ -17,6 +17,15 @@ const routes = [
     name: "login",
     component: () => import("./pages/LoginPage"),
   },
+  { path: "/about",
+  name: "about",
+  component: () => import("./pages/About"),
+},
+  {
+    path: "/favorites",
+    name: "favorites",
+    component: () => import("./pages/Favorites"),
+  },
   {
     path: "/search",
     name: "search",

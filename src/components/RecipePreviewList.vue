@@ -64,11 +64,31 @@ export default {
         break;
       case "search":
         this.onSearch();
+      case "favorites":
+        this.onFavorites();
       default:
         console.log(" switch case defult -------->", this.state);
     }
   },
   methods: {
+    async onFavorites() {
+      try {
+        const response = await this.axios.get(
+          "http://localhost:3000/users/getfavorites"
+          //this.$root.store.server_domain + "/recipes/random",
+          // "https://test-for-3-2.herokuapp.com/recipes/random"
+        );
+
+        // console.log(response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        console.log(this.recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
+
     async onSearch() {
       try {
         console.log("on search");
@@ -124,7 +144,6 @@ export default {
     },
     async lastRecipes() {
       try {
-        
         const response = await this.axios.get(
           "http://localhost:3000/recipes/getLast3"
           //this.$root.store.server_domain + "/recipes/random",
