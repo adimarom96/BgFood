@@ -1,9 +1,12 @@
 <template>
   <div>
-    <router-link :to="{
-      name: 'recipe',
-      params: { recipeId: recipe.id }
-    }" class="recipe-preview">
+    <router-link
+      :to="{
+        name: 'recipe',
+        params: { recipeId: recipe.id },
+      }"
+      class="recipe-preview"
+    >
       <!-- <router-link
       :to="{
         path: '/recipes/getFullRecipe/',
@@ -55,15 +58,20 @@ export default {
     };
   },
   methods: {
-    async like(recipeId) {
+    async like() {
       try {
-        recipe.favorite = true;
-        const response = await this.axios.post(
-          "http://localhost:3000/users/addfavorites", { withCredentials: true },
-          {
-            recipeid: recipeId,
-          }
+        console.log("in fav", this.recipe.id);
+        this.recipe.favorite = true;
+        const response = await this.axios.get(
+          "http://localhost:3000/users/addfavorites?recipeid="+this.recipe.id
+          ,{ withCredentials: true },
+          // {
+          //   params: {
+          //     recipeid: this.recipe.id,
+          //   },
+          // }
         );
+
         console.log(response);
         this.$forceUpdate();
         // this.$root.loggedIn = true;
