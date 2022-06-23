@@ -1,15 +1,15 @@
 <template>
   <div class="container">
     <h1 class="title">Main Page</h1>
+    <router-link v-if="!$root.store.username" to="/login" tag="button"
+      >You need to Login to vue this</router-link
+    >
     <RecipePreviewList
       title="Randome Recipes"
       state="random"
       class="RandomRecipes center"
     />
-    <router-link v-if="!$root.store.username" to="/login" tag="button"
-      >You need to Login to vue this</router-link
-    >
-    {{ !$root.store.username }}
+    
     <RecipePreviewList
       title="Last Viewed Recipes"
       state="last3"

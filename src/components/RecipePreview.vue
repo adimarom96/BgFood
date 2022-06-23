@@ -1,12 +1,10 @@
 <template>
   <div>
-    <router-link
-      :to="{
-         name: 'recipe',
-         params: { recipeId: recipe.id } }"
-      class="recipe-preview"
-    >
-    <!-- <router-link
+    <router-link :to="{
+      name: 'recipe',
+      params: { recipeId: recipe.id }
+    }" class="recipe-preview">
+      <!-- <router-link
       :to="{
         path: '/recipes/getFullRecipe/',
         query: { recipe_id: recipe.id },
@@ -23,13 +21,16 @@
       <ul class="recipe-overview">
         <li>{{ recipe.readyInMinutes }} minutes</li>
         <li>{{ recipe.popularity }} likes</li>
-        <li>{{ recipe.seen }} : seen?</li>
-        <li>
-          <button
-            v-if="recipe.favorite === false"
-            type="button"
-            @click="like(recipe.id).prevent"
-          >
+        <li>Watched?
+        <button disabled v-if="recipe.seen === false" type="button">
+            <b-icon icon="Eye-fill"></b-icon>
+          </button>
+          <button disabled v-else type="button">
+            <b-icon icon="Eye"></b-icon>
+          </button>
+        </li>
+        <li>Favorite?
+          <button v-if="recipe.favorite === false" type="button" @click="like(recipe.id).prevent">
             <b-icon icon="heart"></b-icon>
           </button>
           <button v-else type="button" @click="like(recipe.id).prevent">
@@ -58,7 +59,7 @@ export default {
       try {
         recipe.favorite = true;
         const response = await this.axios.post(
-          "http://localhost:3000/users/addfavorites",{withCredentials : true},
+          "http://localhost:3000/users/addfavorites", { withCredentials: true },
           {
             recipeid: recipeId,
           }
@@ -112,7 +113,8 @@ export default {
   position: relative;
   margin: 10px 10px;
 }
-.recipe-preview > .recipe-body {
+
+.recipe-preview>.recipe-body {
   width: 100%;
   height: 200px;
   position: relative;

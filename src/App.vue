@@ -7,14 +7,14 @@
       <router-link :to="{ name: 'about' }">About</router-link>|
       <router-link :to="{ name: 'myRecipes' }">myRecipes</router-link>|
       <router-link :to="{ name: 'familyRecpies' }">familyRecpies</router-link>|
-      {{ !$root.store.username }}
+      <!--{{ !$root.store.username }}-->
       <span v-if="!$root.store.username">
-        Guest:
+        Hello Guest|
         <router-link :to="{ name: 'register' }">Register</router-link>|
         <router-link :to="{ name: 'login' }">Login</router-link>|
       </span>
       <span v-else>
-        {{ $root.store.username }}: <button @click="Logout">Logout</button>|
+        {{ $root.store.username }} <button @click="Logout">Logout</button>|
       </span>
     </div>
     <router-view />
