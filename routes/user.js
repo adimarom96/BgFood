@@ -54,6 +54,19 @@ router.get("/getMyrecipes", async (req, res, next) => {
   }
 });
 
+router.get("/getFamily", async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const recipes_id = await user_utils.getFamily(user_id);
+    let recipes_id_array = [];
+    recipes_id.map((element) => recipes_id_array.push(element)); //extracting the recipe into array
+    //const results = await recipe_utils.getRecipesPreview(recipes_id_array);
+    res.status(200).send(recipes_id_array);
+  } catch (error) {
+    next(error);
+  }
+});
+
 /**
  * This path gets body with recipeId and save this recipe in the favorites list of the logged-in user
  */

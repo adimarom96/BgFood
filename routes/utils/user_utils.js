@@ -52,6 +52,12 @@ async function getMyrecipes(user_id) {
   return recipes_id;
 }
 
+// returns all the created family recipes of this user id
+async function getFamily(user_id) {
+  const recipes = await DButils.execQuery(`select * from userfamilyrecipes where user_id='${user_id}'`);
+  return recipes;
+}
+
 // returns all the created recipes by this user id
 async function addSeen(user_id, recipe_id) {
   await DButils.execQuery(`INSERT INTO hw3.lastseen VALUES('${user_id}','${recipe_id}',NOW()) ON DUPLICATE KEY UPDATE date=NOW()`);
@@ -72,3 +78,4 @@ exports.getFavoriteRecipes = getFavoriteRecipes;
 exports.getMyrecipes = getMyrecipes;
 exports.addSeen = addSeen;
 exports.checkSeen = checkSeen;
+exports.getFamily = getFamily;
