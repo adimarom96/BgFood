@@ -58,7 +58,7 @@ router.get("/getMyrecipes", async (req, res, next) => {
  * This path gets body with recipeId and save this recipe in the favorites list of the logged-in user
  */
 
- router.get("/getFullRecipe", async (req, res, next) => {
+router.get("/getFullRecipe", async (req, res, next) => {
   console.log("in /getFullRecipe in recipes.js");
   try {
     let id = req.query.recipe_id;
@@ -69,7 +69,6 @@ router.get("/getMyrecipes", async (req, res, next) => {
     next(error);
   }
 });
-
 
 router.get("/addfavorites", async (req, res, next) => {
   try {
@@ -131,4 +130,19 @@ router.get("/addSeen", async (req, res, next) => {
   }
 });
 
+router.get("/lastSearch", async (req, res, next) => {
+  console.log("in /lastSearch ");
+  try {
+    if (req.session && req.session.user_id) {
+      console.log(req.session.last_search);
+      console.log("hard coded response");
+      res.status(200).send(req.session.last_search);
+      
+    } else {
+      res.status(200).send("not found last serach");
+    }
+  } catch (error) {
+    next(error);
+  }
+});
 module.exports = router;

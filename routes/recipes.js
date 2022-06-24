@@ -67,7 +67,7 @@ router.get("/getFullRecipe", async (req, res, next) => {
 router.get("/search", async (req, res, next) => {
   // if there is a logged IN user, then save his search, can use it in the front to show "the last search".
   if (req.session && req.session.user_id) {
-    req.session.last_search = req.session.recipeskeywords;
+    req.session.last_search = req.query.recipeskeywords;
   }
 
   num = req.query.num;
