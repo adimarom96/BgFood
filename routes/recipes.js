@@ -49,25 +49,30 @@ router.get("/getRecipesPrev", async (req, res, next) => {
 /**
  * returns the full recipe match to the id it gets.
  */
-router.get("/getFullRecipe", async (req, res, next) => {
-  console.log("in /getFullRecipe in recipes.js");
-  try {
-    let id = req.query.recipe_id;
-    let user = req.session.user_id;
-    const recipe = await recipes_utils.getRecipeDetails(id, user);
-    res.send(recipe);
-  } catch (error) {
-    next(error);
-  }
-});
+// router.get("/getFullRecipe", async (req, res, next) => {
+//   console.log("in /getFullRecipe in recipes.js");
+//   try {
+    
+//     let id = req.query.recipe_id;
+//     let user = req.session.user_id;
+//     //console.log("repcies id is ----------> ",id);
+//     const recipe = await recipes_utils.getRecipeDetails(id, user);
+//     res.send(recipe);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 /**
  * recipes/search TODO: change the swager!
  */
 router.get("/search", async (req, res, next) => {
   // if there is a logged IN user, then save his search, can use it in the front to show "the last search".
+  let user_id;
   if (req.session && req.session.user_id) {
+     user_id= req.session.user_id;
     req.session.last_search = req.query.recipeskeywords;
+   
   }
 
   num = req.query.num;
@@ -81,6 +86,7 @@ router.get("/search", async (req, res, next) => {
   intolerances = req.query.intolerances;
   try {
     let searchRecpies = await recipes_utils.searchRecpies(
+      user_id,
       num,
       word,
       cuisine,

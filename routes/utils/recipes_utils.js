@@ -35,7 +35,9 @@ async function getRecipeDetails(recipe_id, user_id) {
   let recipeAll = await seenPlusFavorite([recipe_info.data], user_id, [
     recipe_id,
   ]);
-  console.log("a");
+  console.log("go to add seen");
+  user_utils.addSeen(user_id,recipe_id);
+
   let {
     id,
     title,
@@ -145,6 +147,7 @@ function extractPreviewRecipeDetails(recipes_info) {
  * @returns
  */
 async function searchRecpies(
+  user_id,
   numOfResult,
   queryToSearch,
   cuisine,
@@ -173,7 +176,7 @@ async function searchRecpies(
     ids.push(x[i].id);
   }
   // call for get Recipes Preview.
-  let fullR = getRecipesPreview(ids);
+  let fullR = getRecipesPreview(ids,user_id);
   return fullR; // the filtring will take place in the frontend
 
   /** example:
