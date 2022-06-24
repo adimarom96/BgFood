@@ -11,6 +11,7 @@
             <div class="mb-3">
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.popularity }} likes</div>
+              <div>number of dishes: {{ recipe.servings }} </div>
             </div>
             Ingredients:
             <ul>
@@ -82,9 +83,11 @@ export default {
         readyInMinutes,
         image,
         title,
+        servings,
       } = response.data;
 
       console.log("line 92");
+      
       let _instructions = analyzedInstructions
         .map((fstep) => {
           fstep.steps[0].step = fstep.name + fstep.steps[0].step;
@@ -101,6 +104,7 @@ export default {
         readyInMinutes,
         image,
         title,
+        servings,
       };
 
       this.recipe = _recipe;
