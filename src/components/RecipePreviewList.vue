@@ -1,7 +1,7 @@
 <template>
   <b-container>
     <h3>
-      {{ title }}:
+      <!-- {{ title }}: -->
       <slot></slot>
     </h3>
     <b-row>
@@ -76,7 +76,7 @@ export default {
         this.onMyRecipes();
         break;
       default:
-        console.log(" switch case defult -------->", this.state);
+        console.log("switch case defult -------->", this.state);
     }
   },
   methods: {
@@ -121,12 +121,12 @@ export default {
         switch (this.sortBy) {
           case "readyInMinutes":
             console.log("in readyInMinutes ");
-            this.recipes.sort(function(a, b) {
+            this.recipes.sort(function (a, b) {
               return a.readyInMinutes - b.readyInMinutes;
             });
             break;
           case "popularity":
-            this.recipes.sort(function(a, b) {
+            this.recipes.sort(function (a, b) {
               return a.popularity - b.popularity;
             });
             break;
@@ -137,6 +137,20 @@ export default {
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
+      }
+    }, async onMyRecipes() {
+      console.log('--in My Recipes in rec prev list--');
+      try {
+        const response = await this.axios.get(
+          "http://localhost:3000/users/getMyrecipes"
+        );
+        console.log("response12: ", response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        console.log("answer of MyRecpies: ", this.recipes);
+      } catch (error) {
+        console.log("error: ", error.response.data);
       }
     },
     // async randomRecipes() {

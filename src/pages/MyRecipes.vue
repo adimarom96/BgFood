@@ -1,6 +1,13 @@
 <template>
     <div>
-        <b-button v-b-modal.modal-prevent-closing>Open Modal</b-button>
+        Welcome to My Recipes page !<br><br>
+        <b-button v-b-modal.modal-prevent-closing>Create New Recipe!</b-button>
+        <RecipePreviewList 
+        :key="componentKey"
+        v-if="componentKey > 0"
+        title="MyRecipes" 
+        state="MyRecipes" 
+        class="RandomRecipes center" />
 
         <b-modal id="modal-prevent-closing" ref="modal" title="Submit Your Form" @show="resetModal" @hidden="resetModal"
             @ok="handleOk">
@@ -53,11 +60,16 @@
 </template>
 
 <script>
+import RecipePreviewList from "../components/RecipePreviewList";
 import { title } from 'process'
 // instructions
 export default {
+    components: {
+        RecipePreviewList,
+    },
     data() {
         return {
+            componentKey: 0,
             submitError: undefined,
             title: '',
             titleState: null,
@@ -75,10 +87,11 @@ export default {
             numOfDishesState: null,
             instructions: '',
             instructionsState: null,
-            image: "someURL",
+            image: "https://www.eatthis.com/wp-content/uploads/sites/4/2020/12/unhealthiest-foods-planet.jpg?quality=82&strip=1",
             ingredients: "ingredients defualt"
         }
     },
+
     methods: {
         checkFormValidity() {
             //const valid = this.$refs.form.checkValidity()
@@ -130,28 +143,30 @@ export default {
             this.$nextTick(() => {
                 this.$bvModal.hide('modal-prevent-closing')
             })
-        }, async createMyRecipe() {//new ohad
+        }, async createMyRecipe() {
             try {
                 const response = await this.axios.post(
                     "http://localhost:3000/users/createRecipe",
+                    // {
+                    //     withCredentials: true,
+                    //     credentials: 'include',
+                    // },
                     {
-                        withCredentials: true,
-                        credentials: 'include',
-                    }, {
-                    title: this.title,
-                    readyInMinutes: this.time,
-                    aggregateLikes: this.like,
-                    vegan: this.vegan,
-                    vegetarian: this.vegetarian,
-                    glutenFree: this.glutenFree,
-                    numOfDishes: this.numOfDishes,
-                    instructions: this.instructions,
-                    image: this.image,
-                    ingredients: this.ingredients
-                }
+                        title: this.title,
+                        readyInMinutes: this.time,
+                        aggregateLikes: this.like,
+                        vegan: this.vegan,
+                        vegetarian: this.vegetarian,
+                        glutenFree: this.glutenFree,
+                        numOfDishes: this.numOfDishes,
+                        instructions: this.instructions,
+                        image: this.image,
+                        ingredients: this.ingredients
+                    }
                 );
                 //this.$router.push("/login");
                 console.log("--createMyRecipe:", response);
+                this.componentKey += 1;
             } catch (err) {
                 console.log("error123: ", err.response);
                 this.submitError = err.response.data.message;

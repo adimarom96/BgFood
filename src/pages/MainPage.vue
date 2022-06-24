@@ -48,7 +48,7 @@ export default {
   methods: {
     async Random() {
       this.componentKey += 1;
-      console.log("adi");
+      console.log("Random call");
     },
   },
 };

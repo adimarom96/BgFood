@@ -21,7 +21,7 @@
           Username length should be between 3-8 characters long
         </b-form-invalid-feedback>
         <b-form-invalid-feedback v-if="!$v.form.username.alpha">
-          Username alpha
+          Username with characters only
         </b-form-invalid-feedback>
       </b-form-group>
 
@@ -100,13 +100,15 @@
         </b-form-invalid-feedback>
         <b-form-text v-else-if="$v.form.password.$error" text-variant="info">
           Your password should be <strong>strong</strong>. <br />
-          For that, your password should be also:
+          For that, your password should:
         </b-form-text>
         <b-form-invalid-feedback
-          v-if="$v.form.password.required && !$v.form.password.length"
-        >
+          v-if="$v.form.password.required && !$v.form.password.length">
           Have length between 5-10 characters long
         </b-form-invalid-feedback>
+        <!-- <b-form-invalid-feedback v-if="!$v.form.password.required">
+         At least 1 number is required
+        </b-form-invalid-feedback> -->
       </b-form-group>
 
       <b-form-group
