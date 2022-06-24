@@ -64,8 +64,13 @@ export default {
         break;
       case "search":
         this.onSearch();
+        break;
       case "favorites":
         this.onFavorites();
+        break;
+      case "MyRecipes":
+        this.onMyRecipes();
+        break;
       default:
         console.log(" switch case defult -------->", this.state);
     }
@@ -89,7 +94,6 @@ export default {
         console.log(error);
       }
     },
-
     async onSearch() {
       try {
         if (this.recipeskeywords == "") {
@@ -101,10 +105,8 @@ export default {
           `http://localhost:3000/recipes/search?recipeskeywords=${this.recipeskeywords}&num=${this.num}&cuisine=${this.cuisine}&intolerances=${this.intolerances}&diet=${this.diet}`,
           { withCredentials: true }
         );
-
         console.log("on search , respones : ", response);
         // this.$root.loggedIn = true;
-
         const recipes = response.data;
         this.recipes = [];
         this.recipes.push(...recipes);
@@ -124,7 +126,6 @@ export default {
           //this.$root.store.server_domain + "/recipes/random",
           // "https://test-for-3-2.herokuapp.com/recipes/random"
         );
-
         // console.log(response);
         const recipes = response.data;
         this.recipes = [];
@@ -132,6 +133,22 @@ export default {
         console.log(this.recipes);
       } catch (error) {
         console.log(error.response.data);
+      }
+    },
+    async onMyRecipes() {
+      console.log('in My Recipes in prev list');
+      try {
+        const response = await this.axios.get(
+          "http://localhost:3000/users/getMyrecipes"
+          //{ withCredentials: true }
+        );
+        console.log("response: ",response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        console.log("answer of MyRecpies: ", this.recipes);
+      } catch (error) {
+        console.log("error: ",error.response.data);
       }
     },
     async lastRecipes() {
@@ -142,7 +159,6 @@ export default {
           //this.$root.store.server_domain + "/recipes/random",
           // "https://test-for-3-2.herokuapp.com/recipes/random"
         );
-
         // console.log(response);
         const recipes = response.data;
         this.recipes = [];
