@@ -68,8 +68,13 @@ export default {
         break;
       case "search":
         this.onSearch();
+        break;
       case "favorites":
         this.onFavorites();
+        break;
+      case "MyRecipes":
+        this.onMyRecipes();
+        break;
       default:
         console.log(" switch case defult -------->", this.state);
     }
@@ -107,10 +112,8 @@ export default {
           `http://localhost:3000/recipes/search?recipeskeywords=${this.recipeskeywords}&num=${this.num}&cuisine=${this.cuisine}&intolerances=${this.intolerances}&diet=${this.diet}`,
           { withCredentials: true }
         );
-
         console.log("on search , respones : ", response);
         // this.$root.loggedIn = true;
-
         const recipes = response.data;
         this.recipes = [];
         this.recipes.push(...recipes);
