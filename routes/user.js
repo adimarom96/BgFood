@@ -58,19 +58,19 @@ router.get("/getMyrecipes", async (req, res, next) => {
  * This path gets body with recipeId and save this recipe in the favorites list of the logged-in user
  */
 
-router.get("/getFullRecipe", async (req, res, next) => {
-  console.log("in /getFullRecipe in recipes.js");
-  try {
+// router.get("/getFullRecipe", async (req, res, next) => {
+//   console.log("in /getFullRecipe in recipes.js");
+//   try {
     
-    let id = req.query.recipe_id;
-    let user = req.session.user_id;
-    console.log("recpies id is ",id);
-    const recipe = await recipes_utils.getRecipeDetails(id, user);
-    res.send(recipe);
-  } catch (error) {
-    next(error);
-  }
-});
+//     let id = req.query.recipe_id;
+//     let user = req.session.user_id;
+//     console.log("recpies id is ",id);
+//     const recipe = await recipes_utils.getRecipeDetails(id, user);
+//     res.send(recipe);
+//   } catch (error) {
+//     next(error);
+//   }
+// });
 
 router.get("/addfavorites", async (req, res, next) => {
   try {
