@@ -29,6 +29,7 @@
             <b-icon icon="Eye-fill"></b-icon>
           </button>
           <button disabled v-else type="button">
+          seen!
             <b-icon icon="Eye"></b-icon>
           </button>
         </li>
