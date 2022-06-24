@@ -62,7 +62,7 @@
       </option>
     </select>
     <div>Selected: {{ sortBy }}</div>
-
+    <h1> your last serach is : {{ lastSearch }}</h1>
     <RecipePreviewList
       :key="componentKey"
       v-if="componentKey > 0"
@@ -150,7 +150,7 @@ export default {
         { text: "Whole30", value: "Whole30" },
       ],
       num: "5",
-      sortBy: "",
+      sortBy: "None",
       sortByArray: [
         { text: "None", value: "None" },
         { text: "popularity", value: "popularity" },
@@ -166,14 +166,31 @@ export default {
 
       form: {},
       clicked: false,
+      lastSearch: "no search yet",
     };
   },
+  mounted() {
+    this.getLastSearch();
+  },
+
   methods: {
     async onSearch() {
       this.componentKey += 1;
       this.recipeskeywords = this.form.recipeskeywords;
       console.log("sumbit click with ", this.form.recipeskeywords);
+      this.getLastSearch();
       // this.clicked = true;
+    },
+    async getLastSearch() {
+      try {
+        console.log("on get last search");
+        const response = await this.axios.get(
+          "http://localhost:3000/users/lastSearch",
+          { withCredentials: true }
+        );
+        this.lastSearch = response.data;
+        console.log("respones is : ", response.data);
+      } catch (error) {}
     },
   },
 };
