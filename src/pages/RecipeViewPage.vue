@@ -50,28 +50,24 @@ export default {
   },
   async created() {
     try {
-
       // response = this.$route.params.response;
       // try {
-        // response = await this.axios.get(
-        //   // "https://test-for-3-2.herokuapp.com/recipes/info",
-        //   //this.$root.store.server_domain + "/recipes/info",
-        //     "/recipes/",
-        //   {
-        //     params: { id: this.$route.params.recipeId },
-        //   }
-        // );
-        const response = await this.axios.get(
-          "http://localhost:3000/recipes/getFullRecipe",{withCredentials : true},
-          {
-            params: {
-              recipe_id: this.$route.params.recipeId,
-            },
-          }
-        );
+      // response = await this.axios.get(
+      //   // "https://test-for-3-2.herokuapp.com/recipes/info",
+      //   //this.$root.store.server_domain + "/recipes/info",
+      //     "/recipes/",
+      //   {
+      //     params: { id: this.$route.params.recipeId },
+      //   }
+      // );
+      const response = await this.axios.get(
+        "http://localhost:3000/recipes/getFullRecipe?recipe_id=" +
+          this.$route.params.recipeId,
+        { withCredentials: true }
+      );
 
-        console.log("data:   ", response.data);
-        if (response.status !== 200) this.$router.replace("/NotFound");
+      console.log("data:   ", response.data);
+      if (response.status !== 200) this.$router.replace("/NotFound");
       // } catch (error) {
       //   console.log("error.response.status", error.response.status);
       //   this.$router.replace("/NotFound");
@@ -87,7 +83,6 @@ export default {
         image,
         title,
       } = response.data;
-
 
       console.log("line 92");
       let _instructions = analyzedInstructions

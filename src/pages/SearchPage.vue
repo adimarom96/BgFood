@@ -45,6 +45,7 @@
     <br />
     <div>Selected: {{ diet }}</div>
     <br />
+
     num
     <select v-model="num">
       <option v-for="(n, index) in numArray" :key="index" :value="n.value">
@@ -53,11 +54,21 @@
     </select>
     <div>Selected: {{ num }}</div>
 
+    <br />
+    sort by:
+    <select v-model="sortBy">
+      <option v-for="(s, index) in sortByArray" :key="index" :value="s.value">
+        {{ s.text }}
+      </option>
+    </select>
+    <div>Selected: {{ sortBy }}</div>
+
     <RecipePreviewList
       :key="componentKey"
       v-if="componentKey > 0"
       title="Search Result"
       state="search"
+      :sortBy="this.sortBy"
       :recipeskeywords="this.recipeskeywords"
       :cuisine="this.cuisine"
       :intolerances="this.intolerances"
@@ -139,6 +150,12 @@ export default {
         { text: "Whole30", value: "Whole30" },
       ],
       num: "5",
+      sortBy: "",
+      sortByArray: [
+        { text: "None", value: "None" },
+        { text: "popularity", value: "popularity" },
+        { text: "readyInMinutes", value: "readyInMinutes" },
+      ],
       numArray: [
         { text: "5", value: "5" },
         { text: "10", value: "10" },

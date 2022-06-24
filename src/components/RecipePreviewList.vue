@@ -20,6 +20,10 @@ export default {
     RecipePreview,
   },
   props: {
+    sortBy: {
+      tpye: String,
+      required: false,
+    },
     title: {
       type: String,
       required: true,
@@ -71,27 +75,29 @@ export default {
     }
   },
   methods: {
-    async onFavorites() {
-      try {
-        const response = await this.axios.get(
-          "http://localhost:3000/users/getfavorites",
-          { withCredentials: true }
-          //this.$root.store.server_domain + "/recipes/random",
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
-        );
+    // async onFavorites() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       "http://localhost:3000/users/getfavorites",
+    //       { withCredentials: true }
+    //       //this.$root.store.server_domain + "/recipes/random",
+    //       // "https://test-for-3-2.herokuapp.com/recipes/random"
+    //     );
 
-        // console.log(response);
-        const recipes = response.data;
-        this.recipes = [];
-        this.recipes.push(...recipes);
-        console.log(this.recipes);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    //     // console.log(response);
+    //     const recipes = response.data;
+    //     this.recipes = [];
+    //     this.recipes.push(...recipes);
+    //     console.log(this.recipes);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
 
     async onSearch() {
       try {
+        console.log("on search");
+        console.log("sort = ", this.sortBy);
         if (this.recipeskeywords == "") {
           console.log("quey is null");
           return;
@@ -108,50 +114,64 @@ export default {
         const recipes = response.data;
         this.recipes = [];
         this.recipes.push(...recipes);
-        this.$forceUpdate();
-        console.log("after force update");
-        console.log(this.recipes);
+        console.log("on search 115, sort = ", this.sortBy);
+        switch (this.sortBy) {
+          case "readyInMinutes":
+            console.log("in readyInMinutes ");
+            this.recipes.sort(function(a, b) {
+              return a.readyInMinutes - b.readyInMinutes;
+            });
+            break;
+          case "popularity":
+            this.recipes.sort(function(a, b) {
+              return a.popularity - b.popularity;
+            });
+            break;
+          default:
+        }
+
+        console.log("after swich case");
       } catch (err) {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
       }
     },
-    async randomRecipes() {
-      try {
-        const response = await this.axios.get(
-          "http://localhost:3000/recipes/random",
-          { withCredentials: true }
-          //this.$root.store.server_domain + "/recipes/random",
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
-        );
+    // async randomRecipes() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       "http://localhost:3000/recipes/random",
+    //       { withCredentials: true }
+    //       //this.$root.store.server_domain + "/recipes/random",
+    //       // "https://test-for-3-2.herokuapp.com/recipes/random"
+    //     );
 
-        // console.log(response);
-        const recipes = response.data;
-        this.recipes = [];
-        this.recipes.push(...recipes);
-        console.log(this.recipes);
-      } catch (error) {
-        console.log(error.response.data);
-      }
-    },
-    async lastRecipes() {
-      try {
-        const response = await this.axios.get(
-          "http://localhost:3000/recipes/getLast3",
-          { withCredentials: true }
-          //this.$root.store.server_domain + "/recipes/random",
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
-        );
+    //     // console.log(response);
+    //     const recipes = response.data;
+    //     this.recipes = [];
+    //     this.recipes.push(...recipes);
+    //     console.log(this.recipes);
+    //   } catch (error) {
+    //     console.log(error.response.data);
+    //   }
+    // },
+    // async lastRecipes() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       "http://localhost:3000/recipes/getLast3",
+    //       { withCredentials: true }
+    //       //this.$root.store.server_domain + "/recipes/random",
+    //       // "https://test-for-3-2.herokuapp.com/recipes/random"
+    //     );
 
-        // console.log(response);
-        const recipes = response.data;
-        this.recipes = [];
-        this.recipes.push(...recipes);
-        console.log(this.recipes);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    //     // console.log(response);
+    //     const recipes = response.data;
+    //     this.recipes = [];
+    //     this.recipes.push(...recipes);
+    //     console.log(this.recipes);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
   },
 };
 </script>
