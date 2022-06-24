@@ -75,6 +75,9 @@ export default {
       case "MyRecipes":
         this.onMyRecipes();
         break;
+      case "Family":
+        this.onFamily();
+        break;
       default:
         console.log(" switch case defult -------->", this.state);
     }
@@ -126,7 +129,7 @@ export default {
             });
             break;
           case "aggregateLikes":
-            this.recipes.sort(function(a, b) {
+            this.recipes.sort(function (a, b) {
               return a.aggregateLikes - b.aggregateLikes;
             });
             break;
@@ -139,7 +142,7 @@ export default {
         this.form.submitError = err.response.data.message;
       }
     }, async onMyRecipes() {
-      console.log('in My Recipes in rec prev list');
+      console.log('in My Recipes in RecipePreviewList');
       try {
         const response = await this.axios.get(
           "http://localhost:3000/users/getMyrecipes"
@@ -169,6 +172,23 @@ export default {
         console.log(this.recipes);
       } catch (error) {
         console.log(error.response.data);
+      }
+    },
+    async onFamily() {
+      console.log('on Family');
+      try {
+        const response = await this.axios.get(
+          "http://localhost:3000/users/getFamily",
+          { withCredentials: true }
+        );
+        console.log("res11: ",response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        console.log(this.recipes);
+      }
+      catch (err) {
+        console.log('err:', err);
       }
     },
     // async lastRecipes() {
