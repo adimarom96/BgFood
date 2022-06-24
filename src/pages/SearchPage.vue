@@ -153,7 +153,7 @@ export default {
       sortBy: "None",
       sortByArray: [
         { text: "None", value: "None" },
-        { text: "popularity", value: "popularity" },
+        { text: "Likes", value: "aggregateLikes" },
         { text: "readyInMinutes", value: "readyInMinutes" },
       ],
       numArray: [

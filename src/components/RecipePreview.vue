@@ -23,7 +23,7 @@
       </div>
       <ul class="recipe-overview">
         <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.popularity }} likes</li>
+        <li>{{ recipe.aggregateLikes }} likes</li>
         <li>Watched?
         <button disabled v-if="recipe.seen === false" type="button">
             <b-icon icon="Eye-fill"></b-icon>

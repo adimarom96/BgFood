@@ -4,7 +4,6 @@
         <b-button v-b-modal.modal-prevent-closing>Create New Recipe!</b-button>
         <RecipePreviewList 
         :key="componentKey"
-        v-if="componentKey > 0"
         title="MyRecipes" 
         state="MyRecipes" 
         class="RandomRecipes center" />
@@ -20,12 +19,6 @@
                 <b-form-group label="Time" label-for="time-input" :state="timeState">
                     <b-form-input id="time-input" type="number" min=1 placeholder="1" v-model="time" :state="timeState"
                         required></b-form-input>
-                </b-form-group>
-
-                <b-form-group label="Likes" label-for="like-input" :state="likeState">
-                    <b-form-input type="number" min=0 id="like-input" placeholder="0" v-model="like" :state="likeState"
-                        required>
-                    </b-form-input>
                 </b-form-group>
 
                 <b-form-group label="Vegan" label-for="vagen-input" :state="vagenState">
@@ -75,8 +68,6 @@ export default {
             titleState: null,
             time: '',
             timeState: null,
-            like: '',
-            likeState: null,
             vagen: '',
             vagenState: null,
             vegetarian: '',
@@ -87,6 +78,8 @@ export default {
             numOfDishesState: null,
             instructions: '',
             instructionsState: null,
+            
+            aggregateLikes: "0",
             image: "https://www.eatthis.com/wp-content/uploads/sites/4/2020/12/unhealthiest-foods-planet.jpg?quality=82&strip=1",
             ingredients: "ingredients defualt"
         }
@@ -97,7 +90,6 @@ export default {
             //const valid = this.$refs.form.checkValidity()
             this.titleState = valid
             this.timeState = valid
-            this.likeState = valid
             this.vagenState = valid
             this.vegetarianState = valid
             this.glutenFreeState = valid
@@ -110,8 +102,7 @@ export default {
             this.titleState = null
             this.time = ''
             this.timeState = null
-            this.like = ''
-            this.likeState = null
+            this.aggregateLikes = ''
             this.vagen = ''
             this.vagenState = null
             this.vegetarian = ''
@@ -154,7 +145,7 @@ export default {
                     {
                         title: this.title,
                         readyInMinutes: this.time,
-                        aggregateLikes: this.like,
+                        aggregateLikes: this.aggregateLikes,
                         vegan: this.vegan,
                         vegetarian: this.vegetarian,
                         glutenFree: this.glutenFree,

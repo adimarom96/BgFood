@@ -10,7 +10,7 @@
           <div class="wrapped">
             <div class="mb-3">
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
-              <div>Likes: {{ recipe.popularity }} likes</div>
+              <div>Likes: {{ recipe.aggregateLikes }} likes</div>
               <div>number of dishes: {{ recipe.servings }} </div>
             </div>
             Ingredients:
@@ -79,7 +79,7 @@ export default {
         analyzedInstructions,
         instructions,
         extendedIngredients,
-        popularity,
+        aggregateLikes,
         readyInMinutes,
         image,
         title,
@@ -100,7 +100,7 @@ export default {
         _instructions,
         analyzedInstructions,
         extendedIngredients,
-        popularity,
+        aggregateLikes,
         readyInMinutes,
         image,
         title,
