@@ -16,7 +16,7 @@ const user_utils = require("./user_utils");
  */
 async function getRecipeInformation(recipe_id) {
   console.log("in getRecipeInformation in recipes_utills.js");
-  
+
   return await axios.get(`${api_domain}/${recipe_id}/information`, {
     params: {
       includeNutrition: false,
@@ -31,12 +31,12 @@ async function getRecipeInformation(recipe_id) {
  */
 async function getRecipeDetails(recipe_id, user_id) {
   let recipe_info = await getRecipeInformation(recipe_id);
-  
+
   let recipeAll = await seenPlusFavorite([recipe_info.data], user_id, [
     recipe_id,
   ]);
   console.log("go to add seen");
-  user_utils.addSeen(user_id,recipe_id);
+  user_utils.addSeen(user_id, recipe_id);
 
   let {
     id,
@@ -160,10 +160,11 @@ async function searchRecpies(
     // this get/post
     params: {
       query: queryToSearch,
-      number: numOfResult,
+      number: 20,//new ohad
       cuisine: cuisine,
       diet: diet,
       intolerances: intolerances,
+      instructionsRequired: true,
       apiKey: process.env.spooncular_apiKey,
     },
   });
@@ -176,7 +177,7 @@ async function searchRecpies(
     ids.push(x[i].id);
   }
   // call for get Recipes Preview.
-  let fullR = getRecipesPreview(ids,user_id);
+  let fullR = getRecipesPreview(ids, user_id, numOfResult);//numOfResult
   return fullR; // the filtring will take place in the frontend
 
   /** example:
@@ -190,14 +191,25 @@ async function searchRecpies(
  * @returns preview of recipes
  * check also if the user have seen this recipe before, and if add it to his favorites.
  */
-async function getRecipesPreview(recipes_ids_list, user_id) {
+async function getRecipesPreview(recipes_ids_list, user_id, numOfResult) {
   let promises = [];
   recipes_ids_list.map((id) => {
     promises.push(getRecipeInformation(id));
   });
   let info_res = await Promise.all(promises);
-  let recipe = extractPreviewRecipeDetails(info_res);
-  let res = seenPlusFavorite(recipe, user_id, recipes_ids_list);
+  let new_res = [];
+  let new_lst = [];
+  cnt = 0;
+  for (let i = 0; i < Object.keys(info_res).length; i++) {
+    if (info_res[i].data.instructions != "" && info_res[i].data.image != undefined) {
+      new_res.push(info_res[i]);
+      cnt++;
+      new_lst.push(parseInt(info_res[i].data.id));
+    }
+    if (cnt == numOfResult) { break; }
+  }
+  let recipe = extractPreviewRecipeDetails(new_res);//info_res
+  let res = seenPlusFavorite(recipe, user_id, new_lst);//recipes_ids_list
 
   console.log("get preview: ", res);
   return res;
@@ -248,7 +260,7 @@ async function getLast3(user_id) {
   for (let i = 0; i < Object.keys(x).length; i++) {
     threeLast.push(x[i].recipe_id);
   }
-  let prev3 = getRecipesPreview(threeLast);
+  let prev3 = getRecipesPreview(threeLast, 3);
   return prev3;
 }
 
