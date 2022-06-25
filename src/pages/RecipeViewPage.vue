@@ -9,8 +9,7 @@
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
-              <h1>{{ state }}</h1>
-
+            <h1> {{this.state}} </h1>
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.aggregateLikes }} likes</div>
               <div>number of dishes: {{ recipe.servings }}</div>
@@ -30,10 +29,13 @@
           </div>
           <div class="wrapped">
             Instructions:
-            <ol>
-              <!-- <li v-if="this.state!='MyRecipes'" v-for="s in recipe._instructions" :key="s.number">
+            <ol v-if="this.state != 'MyRecipes'">
+              <li v-for="s in recipe._instructions" :key="s.number">
                 {{ s.step }}
-              </li> -->
+              </li>
+            </ol>
+            <ol v-else>
+               {{ recipe.instructions }}
             </ol>
           </div>
         </div>
@@ -52,7 +54,7 @@ export default {
   data() {
     return {
       recipe: null,
-      state: "stae is: " + this.$route.params.state,
+      state:this.$route.params.state,
     };
   },
   mounted() {
@@ -81,7 +83,6 @@ export default {
         this.recipes = [];
         this.recipes.push(...recipes);
         this.recipe = this.recipes[0];
-
       } catch (error) {
         console.log(error.response.data);
       }

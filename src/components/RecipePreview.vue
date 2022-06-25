@@ -1,14 +1,13 @@
 <template>
   <div>
-    <router-link
+    <router-link 
       :to="{
         name: 'recipe',
-        params: { recipeId: recipe.recipe_id,
+        params: { recipeId: recipe.id,
                   state:this.state },
       }"
       class="recipe-preview"
     >
-     
 
       <b-card
        :title="recipe.title" 
@@ -16,7 +15,7 @@
      
         <b-card-text>
          state is :{{state}}
-         recpies is : {{recipe.id}} or {{recipe.recipe_id}}
+         recpies is : {{recipe.id}} or {{recipe.id}}
           <ul class="recipe-overview">
             <li>{{ recipe.readyInMinutes }} minutes</li>
             <li>{{ recipe.aggregateLikes }} likes</li>
@@ -46,6 +45,7 @@
           </ul>
         </b-card-text>
       </b-card>
+
 </router-link>
     
     

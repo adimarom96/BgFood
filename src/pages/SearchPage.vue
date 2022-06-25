@@ -62,7 +62,7 @@
       </option>
     </select>
     <div>Selected: {{ sortBy }}</div>
-    <h1> your last serach is : {{ lastSearch }}</h1>
+    <h1>your last serach is : {{ lastSearch }}</h1>
     <RecipePreviewList
       :key="componentKey"
       v-if="componentKey > 0"
