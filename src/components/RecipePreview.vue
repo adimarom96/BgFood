@@ -3,7 +3,8 @@
     <router-link
       :to="{
         name: 'recipe',
-        params: { recipeId: recipe.id },
+        params: { recipeId: recipe.recipe_id,
+                  state:this.state },
       }"
       class="recipe-preview"
     >
@@ -14,7 +15,8 @@
       :img-src="recipe.image">
      
         <b-card-text>
-        
+         state is :{{state}}
+         recpies is : {{recipe.id}} or {{recipe.recipe_id}}
           <ul class="recipe-overview">
             <li>{{ recipe.readyInMinutes }} minutes</li>
             <li>{{ recipe.aggregateLikes }} likes</li>
@@ -62,6 +64,7 @@ export default {
       image_load: false,
     };
   },
+
   methods: {
     async like() {
       try {
@@ -89,6 +92,10 @@ export default {
     recipe: {
       type: Object,
       required: true,
+    },
+    state: {
+      tpye: String,
+      required: false,
     },
 
     // id: {

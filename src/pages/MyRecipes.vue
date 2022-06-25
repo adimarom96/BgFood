@@ -21,8 +21,8 @@
                         required></b-form-input>
                 </b-form-group>
 
-                <b-form-group label="Vegan" label-for="vagen-input" :state="vagenState">
-                    <b-form-input id="vagen-input" v-model="vagen" :state="vagenState" required>
+                <b-form-group label="Vegan" label-for="vegan-input" :state="veganState">
+                    <b-form-input id="vegan-input" v-model="vegan" :state="veganState" required>
                     </b-form-input>
                 </b-form-group>
 
@@ -66,10 +66,10 @@ export default {
             submitError: undefined,
             title: '',
             titleState: null,
-            time: '',
+            time: '45',
             timeState: null,
-            vagen: '',
-            vagenState: null,
+            vegan: '',
+            veganState: null,
             vegetarian: '',
             vegetarianState: null,
             glutenFree: '',
@@ -90,7 +90,7 @@ export default {
             //const valid = this.$refs.form.checkValidity()
             this.titleState = valid
             this.timeState = valid
-            this.vagenState = valid
+            this.veganState = valid
             this.vegetarianState = valid
             this.glutenFreeState = valid
             this.numOfDishesState = valid
@@ -100,11 +100,11 @@ export default {
         resetModal() {
             this.title = ''
             this.titleState = null
-            this.time = ''
+            this.time = '45'
             this.timeState = null
             this.aggregateLikes = ''
-            this.vagen = ''
-            this.vagenState = null
+            this.vegan = ''
+            this.veganState = null
             this.vegetarian = ''
             this.vegetarianState = null
             this.glutenFree = ''

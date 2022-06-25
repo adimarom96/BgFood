@@ -5,8 +5,9 @@
       <slot></slot>
     </h3>
     <b-row>
-      <b-col v-for="r in recipes" :key="r.id">
-        <RecipePreview class="recipePreview" :recipe="r" />
+      <b-col v-for="r in recipes" :key="r.id" >
+    
+        <RecipePreview class="recipePreview" :recipe="r" :state=state />
       </b-col>
     </b-row>
   </b-container>
@@ -124,12 +125,12 @@ export default {
         switch (this.sortBy) {
           case "readyInMinutes":
             console.log("in readyInMinutes ");
-            this.recipes.sort(function (a, b) {
+            this.recipes.sort(function(a, b) {
               return a.readyInMinutes - b.readyInMinutes;
             });
             break;
           case "aggregateLikes":
-            this.recipes.sort(function (a, b) {
+            this.recipes.sort(function(a, b) {
               return a.aggregateLikes - b.aggregateLikes;
             });
             break;
@@ -141,8 +142,9 @@ export default {
         console.log(err.response);
         this.form.submitError = err.response.data.message;
       }
-    }, async onMyRecipes() {
-      console.log('in My Recipes in RecipePreviewList');
+    },
+    async onMyRecipes() {
+      console.log("in My Recipes in RecipePreviewList");
       try {
         const response = await this.axios.get(
           "http://localhost:3000/users/getMyrecipes"
@@ -165,7 +167,7 @@ export default {
           // "https://test-for-3-2.herokuapp.com/recipes/random"
         );
 
-        // console.log(response);
+        console.log("respone in preview lsit ",response);
         const recipes = response.data;
         this.recipes = [];
         this.recipes.push(...recipes);
@@ -175,20 +177,19 @@ export default {
       }
     },
     async onFamily() {
-      console.log('on Family');
+      console.log("on Family");
       try {
         const response = await this.axios.get(
           "http://localhost:3000/users/getFamily",
           { withCredentials: true }
         );
-        console.log("res11: ",response);
+        console.log("res11: ", response);
         const recipes = response.data;
         this.recipes = [];
         this.recipes.push(...recipes);
         console.log(this.recipes);
-      }
-      catch (err) {
-        console.log('err:', err);
+      } catch (err) {
+        console.log("err:", err);
       }
     },
     // async lastRecipes() {

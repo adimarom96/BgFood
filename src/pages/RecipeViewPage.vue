@@ -1,6 +1,5 @@
 <template>
   <div class="container">
-  
     <div v-if="recipe">
       <div class="recipe-header mt-3 mb-4">
         <h1>{{ recipe.title }}</h1>
@@ -10,12 +9,14 @@
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
+              <h1>{{ state }}</h1>
+
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.aggregateLikes }} likes</div>
-              <div>number of dishes: {{ recipe.servings }} </div>
-              <div>vegan?: {{ recipe.vegan }} </div>
-              <div>vegetarian?: {{ recipe.vegetarian }} </div>
-              <div>glutenFree?: {{ recipe.glutenFree }} </div>
+              <div>number of dishes: {{ recipe.servings }}</div>
+              <div>vegan?: {{ recipe.vegan }}</div>
+              <div>vegetarian?: {{ recipe.vegetarian }}</div>
+              <div>glutenFree?: {{ recipe.glutenFree }}</div>
             </div>
             Ingredients:
             <ul>
@@ -30,9 +31,9 @@
           <div class="wrapped">
             Instructions:
             <ol>
-              <li v-for="s in recipe._instructions" :key="s.number">
+              <!-- <li v-if="this.state!='MyRecipes'" v-for="s in recipe._instructions" :key="s.number">
                 {{ s.step }}
-              </li>
+              </li> -->
             </ol>
           </div>
         </div>
@@ -51,76 +52,110 @@ export default {
   data() {
     return {
       recipe: null,
+      state: "stae is: " + this.$route.params.state,
     };
   },
-  async created() {
-    try {
-      // response = this.$route.params.response;
-      // try {
-      // response = await this.axios.get(
-      //   // "https://test-for-3-2.herokuapp.com/recipes/info",
-      //   //this.$root.store.server_domain + "/recipes/info",
-      //     "/recipes/",
-      //   {
-      //     params: { id: this.$route.params.recipeId },
-      //   }
-      // );
-      const response = await this.axios.get(
-        "http://localhost:3000/recipes/getFullRecipe?recipe_id=" +
-          this.$route.params.recipeId,
-        { withCredentials: true }
-      );
+  mounted() {
+    console.log("in ---------->");
 
-      console.log("data:   ", response.data);
-      if (response.status !== 200) this.$router.replace("/NotFound");
-      // } catch (error) {
-      //   console.log("error.response.status", error.response.status);
-      //   this.$router.replace("/NotFound");
-      //   return;
-      // }
-      console.log("line 82");
-      let {
-        analyzedInstructions,
-        instructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
-        image,
-        title,
-        servings,
-        vegan,
-        vegetarian,
-        glutenFree,
-      } = response.data;
-
-      console.log("line 92");
-      
-      let _instructions = analyzedInstructions
-        .map((fstep) => {
-          fstep.steps[0].step = fstep.name + fstep.steps[0].step;
-          return fstep.steps;
-        })
-        .reduce((a, b) => [...a, ...b], []);
-      console.log("line 92");
-      let _recipe = {
-        instructions,
-        _instructions,
-        analyzedInstructions,
-        extendedIngredients,
-        aggregateLikes,
-        readyInMinutes,
-        image,
-        title,
-        servings,
-        vegan,
-        vegetarian,
-        glutenFree,
-      };
-
-      this.recipe = _recipe;
-    } catch (error) {
-      console.log(error.response.data);
+    console.log(this.$route.params.recipeId);
+    if (this.$route.params.state == "MyRecipes") {
+      this.createdMyRecipe();
+    } else {
+      this.created();
     }
+  },
+  methods: {
+    async createdMyRecipe() {
+      // console.log(this.state);
+      try {
+        const response = await this.axios.get(
+          "http://localhost:3000/users/getMyrecipesWithId?recipe_id=" +
+            this.$route.params.recipeId,
+          { withCredentials: true }
+        );
+
+        console.log("data:   ", response.data);
+        if (response.status !== 200) this.$router.replace("/NotFound");
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        this.recipe = this.recipes[0];
+
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    },
+    async created() {
+      // console.log(this.state);
+      try {
+        // response = this.$route.params.response;
+        // try {
+        // response = await this.axios.get(
+        //   // "https://test-for-3-2.herokuapp.com/recipes/info",
+        //   //this.$root.store.server_domain + "/recipes/info",
+        //     "/recipes/",
+        //   {
+        //     params: { id: this.$route.params.recipeId },
+        //   }
+        // );
+        const response = await this.axios.get(
+          "http://localhost:3000/recipes/getFullRecipe?recipe_id=" +
+            this.$route.params.recipeId,
+          { withCredentials: true }
+        );
+
+        console.log("data:   ", response.data);
+        if (response.status !== 200) this.$router.replace("/NotFound");
+        // } catch (error) {
+        //   console.log("error.response.status", error.response.status);
+        //   this.$router.replace("/NotFound");
+        //   return;
+        // }
+        console.log("line 82");
+        let {
+          analyzedInstructions,
+          instructions,
+          extendedIngredients,
+          aggregateLikes,
+          readyInMinutes,
+          image,
+          title,
+          servings,
+          vegan,
+          vegetarian,
+          glutenFree,
+        } = response.data;
+
+        console.log("line 92");
+
+        let _instructions = analyzedInstructions
+          .map((fstep) => {
+            fstep.steps[0].step = fstep.name + fstep.steps[0].step;
+            return fstep.steps;
+          })
+          .reduce((a, b) => [...a, ...b], []);
+        console.log("line 92");
+        let _recipe = {
+          instructions,
+          _instructions,
+          analyzedInstructions,
+          extendedIngredients,
+          aggregateLikes,
+          readyInMinutes,
+          image,
+          title,
+          servings,
+          vegan,
+          vegetarian,
+          glutenFree,
+        };
+
+        this.recipe = _recipe;
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    },
   },
 };
 </script>
