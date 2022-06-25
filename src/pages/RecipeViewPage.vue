@@ -1,5 +1,6 @@
 <template>
   <div class="container">
+  
     <div v-if="recipe">
       <div class="recipe-header mt-3 mb-4">
         <h1>{{ recipe.title }}</h1>
@@ -12,6 +13,9 @@
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.aggregateLikes }} likes</div>
               <div>number of dishes: {{ recipe.servings }} </div>
+              <div>vegan?: {{ recipe.vegan }} </div>
+              <div>vegetarian?: {{ recipe.vegetarian }} </div>
+              <div>glutenFree?: {{ recipe.glutenFree }} </div>
             </div>
             Ingredients:
             <ul>
@@ -84,6 +88,9 @@ export default {
         image,
         title,
         servings,
+        vegan,
+        vegetarian,
+        glutenFree,
       } = response.data;
 
       console.log("line 92");
@@ -105,6 +112,9 @@ export default {
         image,
         title,
         servings,
+        vegan,
+        vegetarian,
+        glutenFree,
       };
 
       this.recipe = _recipe;

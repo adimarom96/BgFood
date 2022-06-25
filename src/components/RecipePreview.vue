@@ -13,6 +13,8 @@
         query: { recipe_id: recipe.id },
       }"
     > -->
+    <b-card
+    ></b-card>
       <div class="recipe-body">
         <img v-if="image_load" :src="recipe.image" class="recipe-image" />
       </div>
