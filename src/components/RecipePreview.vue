@@ -7,44 +7,46 @@
       }"
       class="recipe-preview"
     >
-      <!-- <router-link
-      :to="{
-        path: '/recipes/getFullRecipe/',
-        query: { recipe_id: recipe.id },
-      }"
-    > -->
-    <b-card
-    ></b-card>
-      <div class="recipe-body">
-        <img v-if="image_load" :src="recipe.image" class="recipe-image" />
-      </div>
-    </router-link>
-    <div class="recipe-footer">
-      <div :title="recipe.title" class="recipe-title">
-        {{ recipe.title }}
-      </div>
-      <ul class="recipe-overview">
-        <li>{{ recipe.readyInMinutes }} minutes</li>
-        <li>{{ recipe.aggregateLikes }} likes</li>
-        <li>Watched?
-        <button disabled v-if="recipe.seen === false" type="button">
-            <b-icon icon="Eye-fill"></b-icon>
-          </button>
-          <button disabled v-else type="button">
-          seen!
-            <b-icon icon="Eye"></b-icon>
-          </button>
-        </li>
-        <li>Favorite?
-          <button v-if="recipe.favorite === false" type="button" @click="like(recipe.id).prevent">
-            <b-icon icon="heart"></b-icon>
-          </button>
-          <button v-else type="button" @click="like(recipe.id).prevent">
-            <b-icon icon="heart-fill"></b-icon>
-          </button>
-        </li>
-      </ul>
-    </div>
+     
+
+      <b-card
+       :title="recipe.title" 
+      :img-src="recipe.image">
+     
+        <b-card-text>
+        
+          <ul class="recipe-overview">
+            <li>{{ recipe.readyInMinutes }} minutes</li>
+            <li>{{ recipe.aggregateLikes }} likes</li>
+            <li>
+              Watched?
+              <button disabled v-if="recipe.seen === false" type="button">
+                <b-icon icon="Eye-fill"></b-icon>
+              </button>
+              <button disabled v-else type="button">
+                seen!
+                <b-icon icon="Eye"></b-icon>
+              </button>
+            </li>
+            <li>
+              Favorite?
+              <button
+                v-if="recipe.favorite === false"
+                type="button"
+                @click="like(recipe.id).prevent"
+              >
+                <b-icon icon="heart"></b-icon>
+              </button>
+              <button v-else type="button" @click="like(recipe.id).prevent">
+                <b-icon icon="heart-fill"></b-icon>
+              </button>
+            </li>
+          </ul>
+        </b-card-text>
+      </b-card>
+</router-link>
+    
+    
   </div>
 </template>
 
@@ -66,8 +68,8 @@ export default {
         console.log("in fav", this.recipe.id);
         this.recipe.favorite = true;
         const response = await this.axios.get(
-          "http://localhost:3000/users/addfavorites?recipeid="+this.recipe.id
-          ,{ withCredentials: true },
+          "http://localhost:3000/users/addfavorites?recipeid=" + this.recipe.id,
+          { withCredentials: true }
           // {
           //   params: {
           //     recipeid: this.recipe.id,
@@ -125,7 +127,7 @@ export default {
   margin: 10px 10px;
 }
 
-.recipe-preview>.recipe-body {
+.recipe-preview > .recipe-body {
   width: 100%;
   height: 200px;
   position: relative;
