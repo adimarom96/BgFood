@@ -34,7 +34,7 @@ async function getFavoriteRecipes(user_id) {
 async function createRecipe(user_id, recpiesDetials) {
   console.log(recpiesDetials);
   let x = await DButils.execQuery(
-    "SELECT MAX(recpieid) as id FROM hw3.userrecipes"
+    "SELECT MAX(recipe_id) as id FROM hw3.userrecipes"
   );
   let maxid = x[0].id;
   maxid++;
@@ -49,6 +49,10 @@ async function createRecipe(user_id, recpiesDetials) {
 // returns all the created recipes by this user id
 async function getMyrecipes(user_id) {
   const recipes_id = await DButils.execQuery(`select * from userrecipes where user_id='${user_id}'`);
+  return recipes_id;
+}
+async function getMyrecipesWithId(user_id,recpie_id){
+  const recipes_id = await DButils.execQuery(`select * from userrecipes where user_id='${user_id}' and recipe_id='${recpie_id}'`);
   return recipes_id;
 }
 
@@ -79,3 +83,4 @@ exports.getMyrecipes = getMyrecipes;
 exports.addSeen = addSeen;
 exports.checkSeen = checkSeen;
 exports.getFamily = getFamily;
+exports.getMyrecipesWithId=getMyrecipesWithId;

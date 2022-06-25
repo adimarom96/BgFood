@@ -54,6 +54,20 @@ router.get("/getMyrecipes", async (req, res, next) => {
   }
 });
 
+router.get("/getMyrecipesWithId", async (req, res, next) => {
+  try {
+    const user_id = req.session.user_id;
+    const recpie_id = req.query.recipe_id;
+    const recipes_id = await user_utils.getMyrecipesWithId(user_id,recpie_id);
+    let recipes_id_array = []; // check what is 'elemnt' !!!?????
+    recipes_id.map((element) => recipes_id_array.push(element)); //extracting the recipe into array
+    //const results = await recipe_utils.getRecipesPreview(recipes_id_array);
+    res.status(200).send(recipes_id_array);
+  } catch (error) {
+    next(error);
+  }
+});
+
 router.get("/getFamily", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
