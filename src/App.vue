@@ -63,21 +63,21 @@
     </div>
 
     <div id="nav">
-      <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
+      <!-- <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
       <router-link :to="{ name: 'search' }">Search</router-link>|
       <router-link :to="{ name: 'favorites' }">Favorites</router-link>|
       <router-link :to="{ name: 'about' }">About</router-link>|
       <router-link :to="{ name: 'myRecipes' }">myRecipes</router-link>|
-      <router-link :to="{ name: 'familyRecpies' }">familyRecpies</router-link>|
+      <router-link :to="{ name: 'familyRecpies' }">familyRecpies</router-link>| -->
       <!--{{ !$root.store.username }}-->
-      <span v-if="!$root.store.username">
+      <!-- <span v-if="!$root.store.username">
         Hello Guest|
         <router-link :to="{ name: 'register' }">Register</router-link>|
         <router-link :to="{ name: 'login' }">Login</router-link>|
       </span>
       <span v-else>
         {{ $root.store.username }} <button @click="Logout">Logout</button>|
-      </span>
+      </span> -->
     </div>
     <router-view />
   </div>

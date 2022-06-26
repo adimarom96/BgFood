@@ -1,57 +1,39 @@
 <template>
   <div>
-    <router-link 
-      :to="{
-        name: 'recipe',
-        params: { recipeId: recipe.id,
-                  state:this.state },
-      }"
-      class="recipe-preview"
-    >
-
-      <b-card
-       :title="recipe.title" 
-      :img-src="recipe.image">
-     
+    <b-card no-body>
+      <router-link
+        :to="{
+          name: 'recipe',
+          params: { recipeId: recipe.id, state: this.state },
+        }"
+        class="recipe-preview"
+      >
+        <b-card :title="recipe.title" :img-src="recipe.image" />
+      </router-link>
+      <b-card-body>
         <b-card-text>
-         state is :{{state}}
-         recpies is : {{recipe.id}} or {{recipe.id}}
+          state is :{{ state }} recpies is : {{ recipe.id }} or {{ recipe.id }}
           <ul class="recipe-overview">
             <li>{{ recipe.readyInMinutes }} minutes</li>
             <li>{{ recipe.aggregateLikes }} likes</li>
-            <li>
-              Watched?
-              <button disabled v-if="recipe.seen === false" type="button">
-                <b-icon icon="Eye-fill"></b-icon>
-              </button>
-              <button disabled v-else type="button">
-                seen!
-                <b-icon icon="Eye"></b-icon>
-              </button>
-            </li>
-            <li>
-              Favorite?
-              <button
-                v-if="recipe.favorite === false"
-                type="button"
-                @click="like(recipe.id).prevent"
-              >
-                <b-icon icon="heart"></b-icon>
-              </button>
-              <button v-else type="button" @click="like(recipe.id).prevent">
-                <b-icon icon="heart-fill"></b-icon>
-              </button>
-            </li>
           </ul>
-        </b-card-text>
-      </b-card>
 
-</router-link>
-    
-    
+          <div v-if="recipe.favorite === false">
+            add to faviorte
+            <b-icon icon="star" @click="like(recipe.id).prevent"></b-icon>
+          </div>
+          <div v-else type="button" @click="like(recipe.id).prevent">
+            <b-icon icon="star-fill"></b-icon>
+            </div>
+
+            <b-icon v-if="recipe.seen === false" icon="Eye"></b-icon>
+            <b-icon v-else icon="Eye-fill"></b-icon>
+          
+        </b-card-text>
+      </b-card-body>
+    </b-card>
   </div>
 </template>
-
 <script>
 export default {
   mounted() {
