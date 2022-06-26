@@ -1,35 +1,33 @@
 <template>
-  <div class="container"
-  
-  >
+  <div class="container">
     <h1 class="title">Main Page</h1>
     <router-link v-if="!$root.store.username" to="/login" tag="button"
       >You need to Login to vue this</router-link
     >
     <div class="recipe">
-    <RecipePreviewList
-      :key="componentKey"
-      title="Randome Recipes"
-      state="random"
-      class="RandomRecipes center"
-    />
+      <RecipePreviewList
+        :key="componentKey"
+        title="Randome Recipes"
+        state="random"
+        class="RandomRecipes center"
+      />
     </div>
     <b-button variant="outline-primary" @click="Random()"
       >Random Recipes</b-button
     >
     <RecipePreviewList
+      v-if="$root.store.username"
       title="Last Viewed Recipes"
       state="last3"
       :class="{
         RandomRecipes: true,
-        blur: !$root.store.username,
         center: true,
       }"
       disabled
     ></RecipePreviewList>
-<div class="login">
-<LoginPage></LoginPage>
-</div>
+    <div class="login">
+      <LoginPage></LoginPage>
+    </div>
     <!-- <div
       style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
     >
@@ -51,8 +49,8 @@ export default {
   },
   components: {
     RecipePreviewList,
-    LoginPage
-},
+    LoginPage,
+  },
   methods: {
     async Random() {
       this.componentKey += 1;

@@ -2,7 +2,7 @@
   <b-container>
     <b-row>
       <b-col v-for="r in recipes" :key="r.id">
-
+       
         <RecipePreview class="recipePreview" :recipe="r" :state=state />
       </b-col>
     </b-row>
@@ -80,24 +80,24 @@ export default {
     }
   },
   methods: {
-    // async onFavorites() {
-    //   try {
-    //     const response = await this.axios.get(
-    //       "http://localhost:3000/users/getfavorites",
-    //       { withCredentials: true }
-    //       //this.$root.store.server_domain + "/recipes/random",
-    //       // "https://test-for-3-2.herokuapp.com/recipes/random"
-    //     );
+    async onFavorites() {
+      try {
+        const response = await this.axios.get(
+          "http://localhost:3000/users/getfavorites",
+          { withCredentials: true }
+          //this.$root.store.server_domain + "/recipes/random",
+          // "https://test-for-3-2.herokuapp.com/recipes/random"
+        );
 
-    //     // console.log(response);
-    //     const recipes = response.data;
-    //     this.recipes = [];
-    //     this.recipes.push(...recipes);
-    //     console.log(this.recipes);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
+        // console.log(response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        console.log(this.recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
 
     async onSearch() {
       try {
@@ -155,24 +155,24 @@ export default {
       }
     },
 
-    async randomRecipes() {
-      try {
-        const response = await this.axios.get(
-          "http://localhost:3000/recipes/random",
-          { withCredentials: true }
-          //this.$root.store.server_domain + "/recipes/random",
-          //"https://test-for-3-2.herokuapp.com/recipes/random"
-        );
+    // async randomRecipes() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       "http://localhost:3000/recipes/random",
+    //       { withCredentials: true }
+    //       //this.$root.store.server_domain + "/recipes/random",
+    //       //"https://test-for-3-2.herokuapp.com/recipes/random"
+    //     );
 
-        console.log("respone in preview lsit ", response);
-        const recipes = response.data;
-        this.recipes = [];
-        this.recipes.push(...recipes);
-        console.log(this.recipes);
-      } catch (error) {
-        console.log(error.response.data);
-      }
-    },
+    //     console.log("respone in preview lsit ", response);
+    //     const recipes = response.data;
+    //     this.recipes = [];
+    //     this.recipes.push(...recipes);
+    //     console.log(this.recipes);
+    //   } catch (error) {
+    //     console.log(error.response.data);
+    //   }
+    // },
     async onFamily() {
       console.log("on Family");
       try {
@@ -189,24 +189,24 @@ export default {
         console.log("err:", err);
       }
     },
-    async lastRecipes() {
-      try {
-        const response = await this.axios.get(
-          "http://localhost:3000/recipes/getLast3",
-          { withCredentials: true }
-          //this.$root.store.server_domain + "/recipes/random",
-          // "https://test-for-3-2.herokuapp.com/recipes/random"
-        );
+    // async lastRecipes() {
+    //   try {
+    //     const response = await this.axios.get(
+    //       "http://localhost:3000/recipes/getLast3",
+    //       { withCredentials: true }
+    //       //this.$root.store.server_domain + "/recipes/random",
+    //       // "https://test-for-3-2.herokuapp.com/recipes/random"
+    //     );
 
-        console.log("last 3 response: ",response);
-        const recipes = response.data;
-        this.recipes = [];
-        this.recipes.push(...recipes);
-        console.log(this.recipes);
-      } catch (error) {
-        console.log(error);
-      }
-    },
+    //     console.log("last 3 response: ",response);
+    //     const recipes = response.data;
+    //     this.recipes = [];
+    //     this.recipes.push(...recipes);
+    //     console.log(this.recipes);
+    //   } catch (error) {
+    //     console.log(error);
+    //   }
+    // },
   },
 };
 </script>

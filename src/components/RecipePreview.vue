@@ -17,7 +17,7 @@
             <li>{{ recipe.readyInMinutes }} minutes</li>
             <li>{{ recipe.aggregateLikes }} likes</li>
           </ul>
-
+<span v-if="$root.store.username">
           <div v-if="recipe.favorite === false">
             add to faviorte
             <b-icon icon="star" @click="like(recipe.id).prevent"></b-icon>
@@ -28,7 +28,7 @@
 
             <b-icon v-if="recipe.seen === false" icon="Eye"></b-icon>
             <b-icon v-else icon="Eye-fill"></b-icon>
-          
+          </span>
         </b-card-text>
       </b-card-body>
     </b-card>

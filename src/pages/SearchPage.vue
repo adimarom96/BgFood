@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title">Search Page</h1>
     <b-form @submit="onSearch">
-      <b-form-group id="input-group-search"  label-for="search">
+      <b-form-group id="input-group-search" label-for="search">
         <b-form-input
           id="search"
           v-model="form.recipeskeywords"
@@ -88,7 +88,7 @@ export default {
   },
   data() {
     return {
-      componentKey: 0,
+      componentKey: 1,
       recipeskeywords: "",
       cuisine: "",
       cuisineArray: [
@@ -175,10 +175,17 @@ export default {
 
   methods: {
     async onSearch() {
+      this.getLastSearch();
       this.componentKey += 1;
+    
+      // if(this.componentKey!=0){
+      // this.lastSearch = this.form.recipeskeywords;
+      // }
+      
+      
       this.recipeskeywords = this.form.recipeskeywords;
       console.log("sumbit click with ", this.form.recipeskeywords);
-      this.getLastSearch();
+
       // this.clicked = true;
     },
     async getLastSearch() {
