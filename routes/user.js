@@ -8,7 +8,7 @@ const recipe_utils = require("./utils/recipes_utils");
  * Authenticate all incoming requests by middleware
  */
 router.use(async function (req, res, next) {
-  if (req.session && req.session.user_id) { //634070
+  if (req.session && req.session.user_id) {
     DButils.execQuery("SELECT user_id FROM users")
       .then((users) => {
         if (users.find((x) => x.user_id === req.session.user_id)) {
@@ -32,7 +32,13 @@ router.get("/getfavorites", async (req, res, next) => {
     let recipes_id_array = [];
     recipes_id.map((element) => recipes_id_array.push(element.recipeid)); //extracting the recipe ids into array
     const results = await recipe_utils.getRecipesPreview(recipes_id_array);
-    res.status(200).send(results);
+    let recpie_ids_extrcat = [];
+    for (let i = 0; i < Object.keys(recipes_id).length; i++) {
+      recpie_ids_extrcat.push(parseInt(recipes_id[i].recipeid));
+    }
+
+    let res1 = await recipe_utils.seenPlusFavorite(results, user_id, recpie_ids_extrcat);
+    res.status(200).send(res1);
   } catch (error) {
     next(error);
   }
@@ -57,8 +63,8 @@ router.get("/getMyrecipes", async (req, res, next) => {
 router.get("/getMyrecipesWithId", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
-    const recpie_id = req.query.recipe_id;
-    const recipes_id = await user_utils.getMyrecipesWithId(user_id,recpie_id);
+    const recpie_id = req.query.id;
+    const recipes_id = await user_utils.getMyrecipesWithId(user_id, recpie_id);
     let recipes_id_array = []; // check what is 'elemnt' !!!?????
     recipes_id.map((element) => recipes_id_array.push(element)); //extracting the recipe into array
     //const results = await recipe_utils.getRecipesPreview(recipes_id_array);
@@ -88,7 +94,7 @@ router.get("/getFamily", async (req, res, next) => {
 // router.get("/getFullRecipe", async (req, res, next) => {
 //   console.log("in /getFullRecipe in recipes.js");
 //   try {
-    
+
 //     let id = req.query.recipe_id;
 //     let user = req.session.user_id;
 //     console.log("recpies id is ",id);
@@ -166,7 +172,6 @@ router.get("/lastSearch", async (req, res, next) => {
       console.log(req.session.last_search);
       console.log("hard coded response");
       res.status(200).send(req.session.last_search);
-      
     } else {
       res.status(200).send("not found last serach");
     }

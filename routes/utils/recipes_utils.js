@@ -269,3 +269,4 @@ exports.getRandomRecipes = getRandomRecipes;
 exports.getRecipesPreview = getRecipesPreview;
 exports.searchRecpies = searchRecpies;
 exports.getLast3 = getLast3;
+exports.seenPlusFavorite=seenPlusFavorite;
