@@ -2,7 +2,7 @@
   <div class="container">
     <h1 class="title">Search Page</h1>
     <b-form @submit="onSearch">
-      <b-form-group id="input-group-search" label="search:" label-for="search">
+      <b-form-group id="input-group-search"  label-for="search">
         <b-form-input
           id="search"
           v-model="form.recipeskeywords"

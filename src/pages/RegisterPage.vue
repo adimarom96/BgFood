@@ -53,7 +53,7 @@
         <b-form-invalid-feedback v-if="!$v.form.password.valid1">
           At least 1 symbol<br>
         </b-form-invalid-feedback>
-                <b-form-invalid-feedback v-if="!$v.form.password.valid2">
+        <b-form-invalid-feedback v-if="!$v.form.password.valid2">
           At least 1 number
         </b-form-invalid-feedback>
       </b-form-group>
@@ -142,10 +142,10 @@ export default {
         valid1: function (value) {
           const specialLetter = /[#?!@$%^&*-]/.test(value);
           return specialLetter;
-        }, 
+        },
         valid2: function (value) {
           const number = /[0-9]/.test(value);
-          return  number;
+          return number;
         },
       },
       confirmedPassword: {

@@ -9,7 +9,7 @@
         <div class="wrapper">
           <div class="wrapped">
             <div class="mb-3">
-            <h1> {{this.state}} </h1>
+              <!-- <h1> {{this.state}} </h1> -->
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.aggregateLikes }} likes</div>
               <div>number of dishes: {{ recipe.servings }}</div>
@@ -19,10 +19,7 @@
             </div>
             Ingredients:
             <ul>
-              <li
-                v-for="(r, index) in recipe.extendedIngredients"
-                :key="index + '_' + r.id"
-              >
+              <li v-for="(r, index) in recipe.extendedIngredients" :key="index + '_' + r.id">
                 {{ r.original }}
               </li>
             </ul>
@@ -35,7 +32,7 @@
               </li>
             </ol>
             <ol v-else>
-               {{ recipe.instructions }}
+              {{ recipe.instructions }}
             </ol>
           </div>
         </div>
@@ -54,7 +51,7 @@ export default {
   data() {
     return {
       recipe: null,
-      state:this.$route.params.state,
+      state: this.$route.params.state,
     };
   },
   mounted() {
@@ -73,7 +70,7 @@ export default {
       try {
         const response = await this.axios.get(
           "http://localhost:3000/users/getMyrecipesWithId?recipe_id=" +
-            this.$route.params.recipeId,
+          this.$route.params.recipeId,
           { withCredentials: true }
         );
 
@@ -102,7 +99,7 @@ export default {
         // );
         const response = await this.axios.get(
           "http://localhost:3000/recipes/getFullRecipe?recipe_id=" +
-            this.$route.params.recipeId,
+          this.$route.params.recipeId,
           { withCredentials: true }
         );
 
@@ -165,15 +162,18 @@ export default {
 .wrapper {
   display: flex;
 }
+
 .wrapped {
   width: 50%;
 }
+
 .center {
   display: block;
   margin-left: auto;
   margin-right: auto;
   width: 50%;
 }
+
 /* .recipe-header{
 
 } */

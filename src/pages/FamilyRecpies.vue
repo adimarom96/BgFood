@@ -1,6 +1,6 @@
 <template>
     <div>
-        Welcome to My Family Recipes page !<br><br>
+        <h2>Welcome to My Family Recipes page !<br><br></h2>
         <RecipePreviewList title="Family" state="Family" class="RandomRecipes center" />
     </div>
 </template>

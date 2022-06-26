@@ -14,7 +14,7 @@
       class="RandomRecipes center"
     />
     </div>
-    <!-- <b-button variant="outline-primary" @click="Random()"
+    <b-button variant="outline-primary" @click="Random()"
       >Random Recipes</b-button
     >
     <RecipePreviewList
@@ -26,7 +26,7 @@
         center: true,
       }"
       disabled
-    ></RecipePreviewList> -->
+    ></RecipePreviewList>
 <div class="login">
 <LoginPage></LoginPage>
 </div>

@@ -1,6 +1,6 @@
 <template>
     <div>
-        Welcome to My Recipes page !<br><br>
+        <h2>Welcome to My Recipes page !<br><br></h2>
         <b-button v-b-modal.modal-prevent-closing>Create New Recipe!</b-button>
         <RecipePreviewList 
         :key="componentKey"
@@ -17,7 +17,7 @@
                 </b-form-group>
 
                 <b-form-group label="Time" label-for="time-input" :state="timeState">
-                    <b-form-input id="time-input" type="number" min=1 placeholder="1" v-model="time" :state="timeState"
+                    <b-form-input id="time-input" type="number" min=1 placeholder="Numbers only!" v-model="time" :state="timeState"
                         required></b-form-input>
                 </b-form-group>
 
@@ -37,8 +37,20 @@
                 </b-form-group>
 
                 <b-form-group label="numOfDishes" label-for="numOfDishes-input" :state="numOfDishesState">
-                    <b-form-input id="numOfDishes-input" type="number" min=1 placeholder="1" v-model="numOfDishes"
+                    <b-form-input id="numOfDishes-input" type="number" min=1 placeholder="Numbers only!" v-model="numOfDishes"
                         :state="numOfDishesState" required>
+                    </b-form-input>
+                </b-form-group>
+
+                <b-form-group label="image" label-for="image-input" :state="imageState">
+                    <b-form-input id="image-input" v-model="image"
+                        :state="imageState" required>
+                    </b-form-input>
+                </b-form-group>
+
+                <b-form-group label="ingredients" label-for="ingredients-input" :state="ingredientsState">
+                    <b-form-input id="ingredients-input" v-model="ingredients"
+                        :state="ingredientsState" required>
                     </b-form-input>
                 </b-form-group>
 
@@ -46,7 +58,7 @@
                     <b-form-input id="instructions-input" v-model="instructions" :state="instructionsState" required>
                     </b-form-input>
                 </b-form-group>
-                <!--------missing: IMAGE , ingredients------->
+                <!--------missing: IMAGE , ingredients , likes------->
             </form>
         </b-modal>
     </div>
@@ -55,7 +67,7 @@
 <script>
 import RecipePreviewList from "../components/RecipePreviewList";
 import { title } from 'process'
-// instructions
+// ingredients
 export default {
     components: {
         RecipePreviewList,
@@ -66,7 +78,7 @@ export default {
             submitError: undefined,
             title: '',
             titleState: null,
-            time: '45',
+            time: '',
             timeState: null,
             vegan: '',
             veganState: null,
@@ -78,10 +90,11 @@ export default {
             numOfDishesState: null,
             instructions: '',
             instructionsState: null,
-            
+            imageState:null,
             aggregateLikes: "0",
-            image: "https://www.eatthis.com/wp-content/uploads/sites/4/2020/12/unhealthiest-foods-planet.jpg?quality=82&strip=1",
-            ingredients: "ingredients defualt"
+            image: '',
+            ingredients: '',
+            ingredientsState: null,
         }
     },
 
@@ -94,15 +107,16 @@ export default {
             this.vegetarianState = valid
             this.glutenFreeState = valid
             this.numOfDishesState = valid
+            this.imageState = valid
             this.instructionsState = valid
+            this.ingredientsState = valid
             return valid
         },
         resetModal() {
             this.title = ''
             this.titleState = null
-            this.time = '45'
+            this.time = ''
             this.timeState = null
-            this.aggregateLikes = ''
             this.vegan = ''
             this.veganState = null
             this.vegetarian = ''
@@ -111,15 +125,19 @@ export default {
             this.glutenFreeState = null
             this.numOfDishes = ''
             this.numOfDishesState = null
+            this.image = ''
+            this.imageState = null
             this.instructions = ''
             this.instructionsState = null
+            this.ingredients = ''
+            this.ingredientsState = null
         },
         handleOk(bvModalEvent) {
             // Prevent modal from closing
             bvModalEvent.preventDefault()
 
             console.log('-------submit-------');
-            console.log(this.time, this.title);
+            // console.log(this.time, this.title);
 
             // Trigger submit handler
             this.handleSubmit()
@@ -136,6 +154,8 @@ export default {
             })
         }, async createMyRecipe() {
             try {
+                console.log('time: ',this.time );
+                console.log('Likes: ',this.aggregateLikes );
                 const response = await this.axios.post(
                     "http://localhost:3000/users/createRecipe",
                     // {
@@ -156,6 +176,7 @@ export default {
                     }
                 );
                 //this.$router.push("/login");
+                //console.log('time', this.time);
                 console.log("--createMyRecipe:", response);
                 this.componentKey += 1;
             } catch (err) {

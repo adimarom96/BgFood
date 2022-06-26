@@ -12,7 +12,7 @@
       </router-link>
       <b-card-body>
         <b-card-text>
-          state is :{{ state }} recpies is : {{ recipe.id }} or {{ recipe.id }}
+          <!-- state is :{{ state }} recpies is : {{ recipe.id }} or {{ recipe.id }} -->
           <ul class="recipe-overview">
             <li>{{ recipe.readyInMinutes }} minutes</li>
             <li>{{ recipe.aggregateLikes }} likes</li>

@@ -8,21 +8,15 @@
 
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
-            <b-nav-item
-              ><router-link :to="{ name: 'main' }"
-                >Vue Recipes</router-link
-              ></b-nav-item
-            >
-            <b-nav-item
-              ><router-link :to="{ name: 'search' }"
-                >Search</router-link
-              ></b-nav-item
-            >
             <b-nav-item>
-              <router-link :to="{ name: 'about' }"
-                >About</router-link
-              ></b-nav-item
-            >
+              <router-link :to="{ name: 'main' }">Vue Recipes</router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link :to="{ name: 'search' }">Search</router-link>
+            </b-nav-item>
+            <b-nav-item>
+              <router-link :to="{ name: 'about' }">About</router-link>
+            </b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
@@ -33,29 +27,21 @@
                 <router-link :to="{ name: 'register' }"> Register </router-link>
                 <router-link :to="{ name: 'login' }"> Login </router-link>
               </span>
-
               <span v-else>
                 {{ $root.store.username }}
                 <button @click="Logout">Logout</button>
               </span>
             </b-nav-item>
-
-            <b-nav-item-dropdown right text="User">
-              <b-dropdown-item
-                ><router-link :to="{ name: 'myRecipes' }"
-                  >myRecipes</router-link
-                ></b-dropdown-item
-              >
-              <b-dropdown-item
-                ><router-link :to="{ name: 'familyRecpies' }"
-                  >familyRecpies</router-link
-                ></b-dropdown-item
-              >
-              <b-dropdown-item
-                ><router-link :to="{ name: 'favorites' }"
-                  >Favorites</router-link
-                ></b-dropdown-item
-              >
+            <b-nav-item-dropdown right text="User" v-if="$root.store.username">
+              <b-dropdown-item>
+                <router-link :to="{ name: 'myRecipes' }">My Recipes</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <router-link :to="{ name: 'familyRecpies' }">My Family Recpies</router-link>
+              </b-dropdown-item>
+              <b-dropdown-item>
+                <router-link :to="{ name: 'favorites' }">My Favorites</router-link>
+              </b-dropdown-item>
             </b-nav-item-dropdown>
           </b-navbar-nav>
         </b-collapse>
