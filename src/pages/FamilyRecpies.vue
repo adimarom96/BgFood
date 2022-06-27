@@ -1,7 +1,7 @@
 <template>
     <div>
         <h2>Welcome to My Family Recipes page !<br><br></h2>
-        <RecipePreviewList title="Family" state="Family" class="RandomRecipes center" />
+        <RecipePreviewList title="Family" state="Family"  />
     </div>
 </template>
 
@@ -13,7 +13,7 @@ export default {
     },
     data() {
         return {
-            componentKey: 0,
+            
         }
     },
 }

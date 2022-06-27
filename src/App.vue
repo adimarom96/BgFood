@@ -33,7 +33,7 @@
                 <router-link :to="{ name: 'login' }"> Login </router-link>
               </span>
               <span v-else>
-                {{ $root.store.username }}
+                welcome {{ $root.store.username }}
                 <button @click="Logout">Logout</button>
               </span>
             </b-nav-item>
@@ -58,8 +58,12 @@
         </b-collapse>
       </b-navbar>
     </div>
-
-    <div class="nav" id="nav">
+    <!-- ..\src\assets\background1.jpg -->
+    <div
+      class="nav"
+      id="nav"
+    
+    >
       <!-- <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
       <router-link :to="{ name: 'search' }">Search</router-link>|
       <router-link :to="{ name: 'favorites' }">Favorites</router-link>|
@@ -100,7 +104,8 @@ export default {
 @import "@/scss/form-style.scss";
 
 #app {
-  font-family: Avenir, Helvetica, Arial, sans-serif;
+  background-image: 'url(https://vuejs.org/images/logo.png)'; 
+  font-family:'Franklin Gothic Medium', 'Arial Narrow', Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   color: #2c3e50;
@@ -112,9 +117,11 @@ export default {
 }
 
 #nav a {
+  
   font-weight: bold;
   color: #2c3e50;
 }
+
 
 #nav a.router-link-exact-active {
   color: #42b983;

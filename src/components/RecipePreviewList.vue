@@ -1,9 +1,16 @@
 <template>
+
   <b-container>
+    
     <b-row>
-      <b-col v-for="r in recipes" :key="r.id">
-       
+     <b-col  v-for="r in recipes" :key="r.id">
+     <span v-if="state==='Family'">
+     
+        <FamilyRecpieComponent class="recipePreview" :recipe="r" :state=state />
+    </span>
+      <span v-else> 
         <RecipePreview class="recipePreview" :recipe="r" :state=state />
+        </span>
       </b-col>
     </b-row>
   </b-container>
@@ -11,11 +18,14 @@
 
 <script>
 import RecipePreview from "./RecipePreview.vue";
+
+import FamilyRecpieComponent from "./familyRecpieComponent.vue";
 export default {
   name: "RecipePreviewList",
   components: {
     RecipePreview,
-  },
+    FamilyRecpieComponent
+},
   props: {
     sortBy: {
       tpye: String,
@@ -56,6 +66,7 @@ export default {
     };
   },
   mounted() {
+    console.log("mouunted state is :", this.state)
     switch (this.state) {
       case "random":
         this.randomRecipes();
@@ -70,6 +81,7 @@ export default {
         this.onFavorites();
         break;
       case "MyRecipes":
+        console.log("in my recieps switch case");
         this.onMyRecipes();
         break;
       case "Family":
@@ -155,24 +167,24 @@ export default {
       }
     },
 
-    // async randomRecipes() {
-    //   try {
-    //     const response = await this.axios.get(
-    //       "http://localhost:3000/recipes/random",
-    //       { withCredentials: true }
-    //       //this.$root.store.server_domain + "/recipes/random",
-    //       //"https://test-for-3-2.herokuapp.com/recipes/random"
-    //     );
+    async randomRecipes() {
+      try {
+        const response = await this.axios.get(
+          "http://localhost:3000/recipes/random",
+          { withCredentials: true }
+          //this.$root.store.server_domain + "/recipes/random",
+          //"https://test-for-3-2.herokuapp.com/recipes/random"
+        );
 
-    //     console.log("respone in preview lsit ", response);
-    //     const recipes = response.data;
-    //     this.recipes = [];
-    //     this.recipes.push(...recipes);
-    //     console.log(this.recipes);
-    //   } catch (error) {
-    //     console.log(error.response.data);
-    //   }
-    // },
+        console.log("respone in preview lsit ", response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        console.log(this.recipes);
+      } catch (error) {
+        console.log(error.response.data);
+      }
+    },
     async onFamily() {
       console.log("on Family");
       try {
@@ -180,11 +192,11 @@ export default {
           "http://localhost:3000/users/getFamily",
           { withCredentials: true }
         );
-        console.log("res11: ", response);
+        console.log("family result: ", response.data);
         const recipes = response.data;
         this.recipes = [];
         this.recipes.push(...recipes);
-        console.log(this.recipes);
+        console.log("recpies are (194) " ,this.recipes);
       } catch (err) {
         console.log("err:", err);
       }

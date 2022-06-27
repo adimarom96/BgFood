@@ -55,8 +55,7 @@ export default {
     };
   },
   mounted() {
-    console.log("in ---------->");
-
+   
     console.log(this.$route.params.recipeId);
     if (this.$route.params.state == "MyRecipes") {
       this.createdMyRecipe();
@@ -68,6 +67,7 @@ export default {
     async createdMyRecipe() {
       // console.log(this.state);
       try {
+        console.log("70:   ", this.$route.params.recipeId);
         const response = await this.axios.get(
           "http://localhost:3000/users/getMyrecipesWithId?recipe_id=" +
           this.$route.params.recipeId,
