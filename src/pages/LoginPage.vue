@@ -1,6 +1,6 @@
 <template>
 <div>
-<h1 class="title">Login</h1>
+<h1 class="title1">Login</h1>
   <div class="container">
     
     <b-form @submit.prevent="onLogin">
@@ -136,5 +136,7 @@ export default {
 .container {
   max-width: 400px;
 }
-
+.title1{
+  text-align: center;
+}
 </style>

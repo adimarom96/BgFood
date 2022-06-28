@@ -11,10 +11,11 @@
           state="random"
           class="RandomRecipes"
         />
-      
-      <b-button variant="outline-primary" @click="Random()"
+      <div class="butrandom">
+      <b-button variant="outline-primary"  @click="Random()"
         >Random Recipes</b-button
       >
+      </div>
     </div>
 
     <div class="right1">
@@ -89,5 +90,9 @@ export default {
 .right1{
   width: 50%;
     display: inline-block;
+}
+.butrandom{
+  text-align: center;
+  padding-top: 3px;
 }
 </style>

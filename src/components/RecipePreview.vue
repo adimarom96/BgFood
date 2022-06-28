@@ -1,6 +1,6 @@
 <template>
   <div>
-    <b-card no-body>
+    <b-card no-body >
       <router-link
         :to="{
           name: 'recipe',
@@ -8,9 +8,9 @@
         }"
         class="recipe-preview"
       >
-        <b-card :title="recipe.title" :img-src="recipe.image" />
+        <b-card :title="recipe.title" :img-src="recipe.image" class="inner" />
       </router-link>
-      <b-card-body>
+      <b-card-body >
         <b-card-text>
           <!-- state is :{{ state }} recpies is : {{ recipe.id }} or {{ recipe.id }} -->
           <ul class="recipe-overview">
@@ -39,14 +39,10 @@
 </template>
 <script>
 export default {
-  mounted() {
-    this.axios.get(this.recipe.image).then((i) => {
-      this.image_load = true;
-    });
-  },
+
   data() {
     return {
-      image_load: false,
+     
     };
   },
 
@@ -185,5 +181,12 @@ export default {
   width: 90px;
   display: table-cell;
   text-align: center;
+}
+.inner{
+  border: none;
+  
+}
+.card-body {
+    padding: 3px;
 }
 </style>

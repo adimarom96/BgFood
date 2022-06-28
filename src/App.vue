@@ -11,30 +11,30 @@
         <b-collapse id="nav-collapse" is-nav>
           <b-navbar-nav>
             <b-nav-item>
-              <router-link :to="{ name: 'main' }">
+              <router-link :to="{ name: 'main' }" class="router1">
                 Main
               </router-link>
             </b-nav-item>
 
             <b-nav-item class="navSearch">
-              <router-link :to="{ name: 'search' }">Search</router-link>
+              <router-link :to="{ name: 'search' } "  class="router1">Search</router-link>
             </b-nav-item>
             <b-nav-item>
-              <router-link :to="{ name: 'about' }">About</router-link>
+              <router-link :to="{ name: 'about' }"  class="router1">About</router-link>
             </b-nav-item>
           </b-navbar-nav>
 
           <!-- Right aligned nav items -->
-          <b-navbar-nav class="ml-auto">
+          <b-navbar-nav class="ml-auto" >
             <div v-if="!$root.store.username">
               <b-nav-item class="navHG">
                 Hello Guest
               </b-nav-item>
               <b-nav-item class="navR">
-                <router-link :to="{ name: 'register' }">Register</router-link>
+                <router-link :to="{ name: 'register' }"  class="router1">Register</router-link>
               </b-nav-item>
               <b-nav-item class="navL">
-                <router-link :to="{ name: 'login' }"> Login </router-link>
+                <router-link :to="{ name: 'login' }"  class="router1"> Login </router-link>
               </b-nav-item>
             </div>
             <div v-else>
@@ -49,17 +49,17 @@
                 v-if="$root.store.username"
               >
                 <b-dropdown-item>
-                  <router-link :to="{ name: 'myRecipes' }"
+                  <router-link :to="{ name: 'myRecipes' }"  class="router1"
                     >My Recipes</router-link
                   >
                 </b-dropdown-item>
                 <b-dropdown-item>
-                  <router-link :to="{ name: 'familyRecpies' }"
+                  <router-link :to="{ name: 'familyRecpies' }"  class="router1"
                     >My Family Recpies</router-link
                   >
                 </b-dropdown-item>
                 <b-dropdown-item>
-                  <router-link :to="{ name: 'favorites' }"
+                  <router-link :to="{ name: 'favorites' }"  class="router1"
                     >My Favorites</router-link
                   >
                 </b-dropdown-item>
@@ -73,23 +73,7 @@
       </b-navbar>
     </div>
     <!-- ..\src\assets\background1.jpg -->
-    <div class="nav" id="nav">
-      <!-- <router-link :to="{ name: 'main' }">Vue Recipes</router-link>|
-      <router-link :to="{ name: 'search' }">Search</router-link>|
-      <router-link :to="{ name: 'favorites' }">Favorites</router-link>|
-      <router-link :to="{ name: 'about' }">About</router-link>|
-      <router-link :to="{ name: 'myRecipes' }">myRecipes</router-link>|
-      <router-link :to="{ name: 'familyRecpies' }">familyRecpies</router-link>| -->
-      <!--{{ !$root.store.username }}-->
-      <!-- <span v-if="!$root.store.username">
-        Hello Guest|
-        <router-link :to="{ name: 'register' }">Register</router-link>|
-        <router-link :to="{ name: 'login' }">Login</router-link>|
-      </span>
-      <span v-else>
-        {{ $root.store.username }} <button @click="Logout">Logout</button>|
-      </span> -->
-    </div>
+
     <router-view />
   </div>
 </template>
@@ -243,4 +227,8 @@ li.nav-item:hover {
 .navWA:hover {
   background-color: #1b1b19 !important;
 }
+.router1{
+  color: white;
+}
+
 </style>
