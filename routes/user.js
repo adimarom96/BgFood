@@ -63,7 +63,7 @@ router.get("/getMyrecipes", async (req, res, next) => {
 router.get("/getMyrecipesWithId", async (req, res, next) => {
   try {
     const user_id = req.session.user_id;
-    const recpie_id = req.query.id;
+    const recpie_id = req.query.recipe_id;
     const recipes_id = await user_utils.getMyrecipesWithId(user_id, recpie_id);
     let recipes_id_array = []; // check what is 'elemnt' !!!?????
     recipes_id.map((element) => recipes_id_array.push(element)); //extracting the recipe into array
@@ -170,7 +170,7 @@ router.get("/lastSearch", async (req, res, next) => {
   try {
     if (req.session && req.session.user_id) {
       console.log(req.session.last_search);
-      console.log("hard coded response");
+
       res.status(200).send(req.session.last_search);
     } else {
       res.status(200).send("not found last serach");
