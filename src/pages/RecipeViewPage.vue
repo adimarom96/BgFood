@@ -13,9 +13,9 @@
               <div>Ready in {{ recipe.readyInMinutes }} minutes</div>
               <div>Likes: {{ recipe.aggregateLikes }} likes</div>
               <div>number of dishes: {{ recipe.servings }}</div>
-              <div>vegan?: {{ recipe.vegan }}</div>
-              <div>vegetarian?: {{ recipe.vegetarian }}</div>
-              <div>glutenFree?: {{ recipe.glutenFree }}</div>
+               <b-badge v-if="recipe.vegan" variant="success">vegan</b-badge>
+          <b-badge v-if="recipe.vegetarian" variant="primary">vegetarian</b-badge>
+           <b-badge v-if="recipe.glutenFree" variant="info">glutenFree</b-badge>
             </div>
             Ingredients:
             <ul >

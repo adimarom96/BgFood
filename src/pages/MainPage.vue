@@ -3,6 +3,7 @@
 
 <div class="container">
   <h1 class="title">Main Page</h1>
+  <p> Welcome to BgFOOD! <br> Here you can enjoy vrairty of new recpies, save the to your faviortes, <br> Create new recipes and more!!</p>
     <div class="left">
       <h2 class="title">Explore this recipes</h2>
         <RecipePreviewList

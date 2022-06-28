@@ -1,18 +1,20 @@
 <template>
   <div class="container">
     <h1 class="title">Search Page</h1>
-    <b-form @submit="onSearch">
-      <b-form-group id="input-group-search" label-for="search">
+    <div >
+    <b-form @submit="onSearch"  >
+      <b-form-group id="input-group-search" label-for="search" >
         <b-form-input
           id="search"
           v-model="form.recipeskeywords"
           placeholder="Enter your query here"
           type="search"
           required
-        ></b-form-input>
-        <b-button type="submit" variant="primary">Submit</b-button>
+         class="searcarea"></b-form-input>
+        <b-button type="submit" variant="primary" class="searcarea">Submit</b-button>
       </b-form-group>
     </b-form>
+    </div>
     <div class="searchitems">
       cuisine:
       <select v-model="cuisine">
@@ -199,5 +201,13 @@ export default {
 </script>
 
 <style>
+.searcarea{
+  max-width: 70%;
+  margin-right: 10px;
+  display: inline;
+}
+.searchitems{
+  max-width: 120%;
 
+}
 </style>

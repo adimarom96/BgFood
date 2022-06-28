@@ -143,7 +143,10 @@ a.nav-link {
 
 .navHG {
   display: inline-block;
-  width: 100px;
+  width: 110px;
+}
+.navHG:hover {
+    background-color: #1b1b19 !important;
 }
 
 .navR {

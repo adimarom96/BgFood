@@ -31,6 +31,14 @@
             </li>
           </span>
           </ul>
+          <ul>
+          <div>
+           <b-badge v-if="recipe.vegan" variant="success">vegan</b-badge>
+          <b-badge v-if="recipe.vegetarian" variant="primary">vegetarian</b-badge>
+           <b-badge v-if="recipe.glutenFree" variant="info">glutenFree</b-badge>
+         
+         </div>
+          </ul>
 
         </b-card-text>
       </b-card-body>
@@ -188,5 +196,8 @@ export default {
 }
 .card-body {
     padding: 3px;
+}
+h4{
+  font-size: 14pt !important;
 }
 </style>
