@@ -16,19 +16,22 @@
           <ul class="recipe-overview">
             <li>{{ recipe.readyInMinutes }} minutes</li>
             <li>{{ recipe.aggregateLikes }} likes</li>
-          </ul>
-<span v-if="$root.store.username">
+            <span v-if="$root.store.username">
           <div v-if="recipe.favorite === false">
-            add to faviorte
+           <li> add to faviorte
             <b-icon icon="star" @click="like(recipe.id).prevent"></b-icon>
+            </li>
           </div>
           <div v-else type="button" @click="like(recipe.id).prevent">
-            <b-icon icon="star-fill"></b-icon>
+            <li><b-icon icon="star-fill"></b-icon></li>
             </div>
 
-            <b-icon v-if="recipe.seen === false" icon="Eye"></b-icon>
+           <li> <b-icon v-if="recipe.seen === false" icon="Eye"></b-icon>
             <b-icon v-else icon="Eye-fill"></b-icon>
+            </li>
           </span>
+          </ul>
+
         </b-card-text>
       </b-card-body>
     </b-card>

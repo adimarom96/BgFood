@@ -1,6 +1,8 @@
 <template>
+<div>
+<h1 class="title">Login</h1>
   <div class="container">
-    <h1 class="title">Login</h1>
+    
     <b-form @submit.prevent="onLogin">
       <b-form-group
         id="input-group-Username"
@@ -60,6 +62,7 @@
     <!-- <b-card class="mt-3" header="Form Data Result">
       <pre class="m-0">{{ form }}</pre>
     </b-card> -->
+  </div>
   </div>
 </template>
 
@@ -133,4 +136,5 @@ export default {
 .container {
   max-width: 400px;
 }
+
 </style>

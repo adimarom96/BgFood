@@ -13,56 +13,51 @@
         <b-button type="submit" variant="primary">Submit</b-button>
       </b-form-group>
     </b-form>
+    <div class="searchitems">
+      cuisine:
+      <select v-model="cuisine">
+        <option
+          v-for="(c, index) in cuisineArray"
+          :key="index"
+          :value="c.value"
+        >
+          {{ c.text }}
+        </option>
+      </select>
 
-    cuisine:
-    <select v-model="cuisine">
-      <option v-for="(c, index) in cuisineArray" :key="index" :value="c.value">
-        {{ c.text }}
-      </option>
-    </select>
-    <br />
-    <div>Selected: {{ cuisine }}</div>
-    <br />
-    intolerances
-    <select v-model="intolerances">
-      <option
-        v-for="(i, index) in intolerancesArray"
-        :key="index"
-        :value="i.value"
-      >
-        {{ i.text }}
-      </option>
-    </select>
-    <br />
-    <div>Selected: {{ intolerances }}</div>
-    <br />
-    diet
-    <select v-model="diet">
-      <option v-for="(d, index) in dietArray" :key="index" :value="d.value">
-        {{ d.text }}
-      </option>
-    </select>
-    <br />
-    <div>Selected: {{ diet }}</div>
-    <br />
+      intolerances:
+      <select v-model="intolerances">
+        <option
+          v-for="(i, index) in intolerancesArray"
+          :key="index"
+          :value="i.value"
+        >
+          {{ i.text }}
+        </option>
+      </select>
 
-    num
-    <select v-model="num">
-      <option v-for="(n, index) in numArray" :key="index" :value="n.value">
-        {{ n.text }}
-      </option>
-    </select>
-    <div>Selected: {{ num }}</div>
+      diet:
+      <select v-model="diet">
+        <option v-for="(d, index) in dietArray" :key="index" :value="d.value">
+          {{ d.text }}
+        </option>
+      </select>
 
-    <br />
-    sort by:
-    <select v-model="sortBy">
-      <option v-for="(s, index) in sortByArray" :key="index" :value="s.value">
-        {{ s.text }}
-      </option>
-    </select>
-    <div>Selected: {{ sortBy }}</div>
-    <h1>your last serach is : {{ lastSearch }}</h1>
+      number of result:
+      <select v-model="num">
+        <option v-for="(n, index) in numArray" :key="index" :value="n.value">
+          {{ n.text }}
+        </option>
+      </select>
+
+      sort by:
+      <select v-model="sortBy">
+        <option v-for="(s, index) in sortByArray" :key="index" :value="s.value">
+          {{ s.text }}
+        </option>
+      </select>
+    </div>
+    <div v-if="lastSearch != ''">your last serach is : {{ lastSearch }}</div>
     <RecipePreviewList
       :key="componentKey"
       v-if="componentKey > 0"
@@ -166,10 +161,11 @@ export default {
 
       form: {},
       clicked: false,
-      lastSearch: "no search yet",
+      lastSearch: "",
     };
   },
   mounted() {
+    this.lastSearch = "";
     this.getLastSearch();
   },
 
@@ -177,12 +173,11 @@ export default {
     async onSearch() {
       this.getLastSearch();
       this.componentKey += 1;
-    
+
       // if(this.componentKey!=0){
       // this.lastSearch = this.form.recipeskeywords;
       // }
-      
-      
+
       this.recipeskeywords = this.form.recipeskeywords;
       console.log("sumbit click with ", this.form.recipeskeywords);
 
@@ -203,4 +198,6 @@ export default {
 };
 </script>
 
-<style></style>
+<style>
+
+</style>

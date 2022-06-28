@@ -1,18 +1,20 @@
 <template>
-
   <b-container>
-    
     <b-row>
-     <b-col  v-for="r in recipes" :key="r.id">
-     <span v-if="state==='Family'">
-     
-        <FamilyRecpieComponent class="recipePreview" :recipe="r" :state=state />
-    </span>
-      <span v-else> 
-        <RecipePreview class="recipePreview" :recipe="r" :state=state />
+      <b-col v-for="r in recipes" :key="r.id">
+        <span v-if="state === 'Family'">
+          <FamilyRecpieComponent
+            class="recipePreview"
+            :recipe="r"
+            :state="state"
+          />
+        </span>
+        <span v-else>
+          <RecipePreview class="recipePreview" :recipe="r" :state="state" />
         </span>
       </b-col>
     </b-row>
+    <h3 v-if="noResult">No Result found, try another search. </h3>
   </b-container>
 </template>
 
@@ -24,8 +26,8 @@ export default {
   name: "RecipePreviewList",
   components: {
     RecipePreview,
-    FamilyRecpieComponent
-},
+    FamilyRecpieComponent,
+  },
   props: {
     sortBy: {
       tpye: String,
@@ -63,10 +65,11 @@ export default {
   data() {
     return {
       recipes: [],
+      noResult: false,
     };
   },
   mounted() {
-    console.log("mouunted state is :", this.state)
+    console.log("mouunted state is :", this.state);
     switch (this.state) {
       case "random":
         this.randomRecipes();
@@ -124,22 +127,35 @@ export default {
           `http://localhost:3000/recipes/search?recipeskeywords=${this.recipeskeywords}&num=${this.num}&cuisine=${this.cuisine}&intolerances=${this.intolerances}&diet=${this.diet}`,
           { withCredentials: true }
         );
+
         console.log("on search , respones : ", response);
-        // this.$root.loggedIn = true;
+        if (typeof response.data == "undefined") {
+          
+          this.noResult = true;
+          return;
+        }
         const recipes = response.data;
+        if (recipes.length == 0) {
+          console.log("bbbbb");
+          this.noResult = true;
+          return;
+        }
+        // this.$root.loggedIn = true;
+
         this.recipes = [];
         this.recipes.push(...recipes);
+
         console.log("on search 115, sort = ", this.sortBy);
         switch (this.sortBy) {
           case "readyInMinutes":
             console.log("in readyInMinutes ");
-            this.recipes.sort(function (a, b) {
+            this.recipes.sort(function(a, b) {
               return a.readyInMinutes - b.readyInMinutes;
             });
             break;
           case "aggregateLikes":
-            this.recipes.sort(function (a, b) {
-              return a.aggregateLikes - b.aggregateLikes;
+            this.recipes.sort(function(a, b) {
+              return b.aggregateLikes - a.aggregateLikes;
             });
             break;
           default:
@@ -196,29 +212,29 @@ export default {
         const recipes = response.data;
         this.recipes = [];
         this.recipes.push(...recipes);
-        console.log("recpies are (194) " ,this.recipes);
+        console.log("recpies are (194) ", this.recipes);
       } catch (err) {
         console.log("err:", err);
       }
     },
-    // async lastRecipes() {
-    //   try {
-    //     const response = await this.axios.get(
-    //       "http://localhost:3000/recipes/getLast3",
-    //       { withCredentials: true }
-    //       //this.$root.store.server_domain + "/recipes/random",
-    //       // "https://test-for-3-2.herokuapp.com/recipes/random"
-    //     );
+    async lastRecipes() {
+      try {
+        const response = await this.axios.get(
+          "http://localhost:3000/recipes/getLast3",
+          { withCredentials: true }
+          //this.$root.store.server_domain + "/recipes/random",
+          // "https://test-for-3-2.herokuapp.com/recipes/random"
+        );
 
-    //     console.log("last 3 response: ",response);
-    //     const recipes = response.data;
-    //     this.recipes = [];
-    //     this.recipes.push(...recipes);
-    //     console.log(this.recipes);
-    //   } catch (error) {
-    //     console.log(error);
-    //   }
-    // },
+        console.log("last 3 response: ", response);
+        const recipes = response.data;
+        this.recipes = [];
+        this.recipes.push(...recipes);
+        console.log(this.recipes);
+      } catch (error) {
+        console.log(error);
+      }
+    },
   },
 };
 </script>

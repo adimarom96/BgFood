@@ -1,39 +1,38 @@
 <template>
-  <div class="container">
-    <h1 class="title">Main Page</h1>
-    <router-link v-if="!$root.store.username" to="/login" tag="button"
-      >You need to Login to vue this</router-link
-    >
-    <div class="recipe">
-      <RecipePreviewList
-        :key="componentKey"
-        title="Randome Recipes"
-        state="random"
-        class="RandomRecipes center"
-      />
+
+
+<div class="container">
+  <h1 class="title">Main Page</h1>
+    <div class="left">
+      <h2 class="title">Explore this recipes</h2>
+        <RecipePreviewList
+          :key="componentKey"
+          title="Randome Recipes"
+          state="random"
+          class="RandomRecipes"
+        />
+      
+      <b-button variant="outline-primary" @click="Random()"
+        >Random Recipes</b-button
+      >
     </div>
-    <b-button variant="outline-primary" @click="Random()"
-      >Random Recipes</b-button
-    >
-    <RecipePreviewList
-      v-if="$root.store.username"
-      title="Last Viewed Recipes"
-      state="last3"
-      :class="{
-        RandomRecipes: true,
-        center: true,
-      }"
-      disabled
-    ></RecipePreviewList>
-    <div class="login">
-      <LoginPage></LoginPage>
+
+    <div class="right1">
+        <div class="login" v-if="!$root.store.username" >
+          <LoginPage></LoginPage>
+        </div>
+        <div v-else>
+        <h2 class="title">Last Seen </h2>
+            <RecipePreviewList
+          v-if="$root.store.username"
+          title="Last Viewed Recipes"
+          state="last3"
+          class="RandomRecipes"
+        ></RecipePreviewList>
+        </div>
     </div>
-    <!-- <div
-      style="position: absolute;top: 70%;left: 50%;transform: translate(-50%, -50%);"
-    >
-      Centeredasdasdad
-    </div>-->
-  </div>
+</div>
+
 </template>
 
 <script>
@@ -65,6 +64,10 @@ export default {
   margin: 10px 0 10px;
   display: inline-block;
 }
+.container{
+  width: 100%;
+  margin: 0 auto;
+}
 .blur {
   -webkit-filter: blur(5px); /* Safari 6.0 - 9.0 */
   filter: blur(2px);
@@ -72,5 +75,19 @@ export default {
 ::v-deep .blur .recipe-preview {
   pointer-events: none;
   cursor: default;
+}
+.title{
+    text-align: center;
+}
+
+.left{
+  width: 50%;
+    display: inline-block;
+    float: left;
+}
+
+.right1{
+  width: 50%;
+    display: inline-block;
 }
 </style>

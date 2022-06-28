@@ -18,10 +18,18 @@
               <div>glutenFree?: {{ recipe.glutenFree }}</div>
             </div>
             Ingredients:
-            <ul>
-              <li v-for="(r, index) in recipe.extendedIngredients" :key="index + '_' + r.id">
+            <ul >
+            <span v-if="this.state === 'MyRecipes'">
+            <li>
+                {{ recipe.ingredients }}
+              </li>
+            </span>
+            <span v-else>
+            <li v-for="(r, index) in recipe.extendedIngredients" :key="index + '_' + r.id">
                 {{ r.original }}
               </li>
+            </span>
+              
             </ul>
           </div>
           <div class="wrapped">

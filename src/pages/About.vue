@@ -1,4 +1,6 @@
+
 <template>
+
     <div class="container">
         <h1>About</h1>
         Ohad Miller <br>
@@ -15,3 +17,6 @@
             href="https://github.com/Web-Development-Environments-2022/assignment3_2-313597718_315811695">server</a>
     </div>
 </template>
+<style>
+
+</style>
