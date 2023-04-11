@@ -13,13 +13,12 @@ The server also uses external APIs to get additional data when needed.
 
 The client-side is built with Vue and uses a single-page application (SPA) architecture, which allows for a more seamless and responsive user experience.
 The client-side is communicates with the server-side API to retrieve and display data.
-
+Frontend Code - https://github.com/adimarom96/BgFoodFront
 
 ##  External APIs and Swagger
 
 
 The site uses external APIs to fetch recipe data and uses Swagger for API documentation. 
-Frontend Code - https://github.com/adimarom96/BgFoodFront
 swagger - https://app.swaggerhub.com/apis/adimarom96/HW3.1API/1.0.0#/
 
 
