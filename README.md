@@ -21,7 +21,6 @@ Frontend Code - https://github.com/adimarom96/BgFoodFront
 The site uses external APIs to fetch recipe data and uses Swagger for API documentation. 
 swagger - https://app.swaggerhub.com/apis/adimarom96/HW3.1API/1.0.0#/
 
-
 Images:
 
 ![image](https://user-images.githubusercontent.com/66023983/231113985-6c0a82ef-4035-4ce5-9805-9c6c73a4a1ec.png)
